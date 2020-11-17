@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Page</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+</head>
+
+<body>
+
+    <nav>
+        <h3>DevTank</h3>
+        <p>Welcome, {{user.alias}} </p>
+        <div class="header">
+            <a href="/dashboard">Dashboard</a>
+            <a href="/inbox">Inbox</a>
+            <a href="/logout">Logout</a>
+        </div>
+        <hr>
+    </nav>
+
+    <div class="inbox">
+        <h3>Messages:</h3>
+
+    </div>
+    <div class="new">
+        <form action="/new_chat" method="POST">
+            {% csrf_token %}
+            <label for="new_chat">New Chat</label>
+            <select name="dev_chat">
+                <option value=""></option>
+                {% for dev in all_devs %}
+                <option value="{{dev.id}}">{{dev.alias}}</option>
+                {% endfor %}
+            </select>
+            <input type="text" name="text" id="text">
+            <input type="hidden" name="starter" value='{{user.id}}'>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+
+
+</body>
+
+</html>

@@ -9,3 +9,21 @@ nav {
     justify-content: space-between;
     align-content: center;
 }
+
+.feature {
+    margin-left: 150px;
+}
+
+.feature h1{
+    display: inline-block;
+    vertical-align: middle;
+    padding: 20px;
+}
+
+.stories {
+    width: 600px;
+}
+
+.content {
+    display: flex;
+}

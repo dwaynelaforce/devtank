@@ -9,7 +9,7 @@ def index(request):
     #     do this
 
     context = {
-        'projects': Project.categories.all(),        
+        'projects': Project.objects.all(),        
     }
         
     
@@ -62,6 +62,22 @@ def create_project(request):
 #         project = project
 #     )
 #     return redirect('/some path to the project')
+
+def about(request):
+    return render(request, 'about.html')
+
+def inbox(request, user_id):
+
+    if request.session['role'] == 'client':
+        user = Client.objects.get(id=request.session['client_id'])
+    elif request.session['role'] == 'dev':
+        user = Dev.objects.get(id=request.session['dev_id'])
+
+    context = {
+        'user': user,
+        "all_devs": Dev.objects.all(),
+    }
+    return render(request, 'inbox.html', context)
 
 def logout(request):
     request.session.flush()
