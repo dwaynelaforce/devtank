@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>DevTank</title>
+</head>
+
+<body>
+    <nav>
+        <h3>DevTank</h3>
+        <div class="header">
+            <a href="">About</a>
+            <a href="/login_reg">Login</a>
+        </div>
+        <hr>
+    </nav>
+    <div class="feature">
+
+
+    </div>
+    <div class="content">
+
+        <div class="stories">
+
+        </div>
+        <div class="categories">
+            <!-- {% for project in project.categories.all %} -->
+
+            <a href="/category_search_button"><button
+                    style='border-radius: 10px solid black; background-color: beige;'>{{project.category}}</button></a>
+
+            <!-- {% endfor %} -->
+
+        </div>
+
+    </div>
+</body>
+
+</html>

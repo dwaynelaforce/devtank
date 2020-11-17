@@ -1,0 +1,11 @@
+* {
+    padding: 0px;
+    margin: 0px;
+}
+
+nav {
+    margin: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+}

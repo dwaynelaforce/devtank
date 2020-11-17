@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>Upload Project</title>
+</head>
+<body>
+    <div class="container">
+        <nav>
+            <h1>DevTank</h1>
+            <p>Welcome, {{user.alias}} </p>
+            <div class="header">
+                <a href="/logout">Logout</a>
+            </div>
+            <hr>
+        </nav>
+        <div class="main">
+            <h1>Upload Your Project</h1>
+            <form action="/create_project" method="post">
+                {% csrf_token %}
+                <div>
+                    <label for="proj_name">Project Name</label>
+                    <input type="text" name="proj_name">
+                </div>
+                <div>
+                    <label for="quick_pitch">Quick Pitch</label>
+                    <input type="text" name="quick_pitch">
+                </div>
+                <div>
+                    <label for="desc">Description</label>
+                    <input type="text" name="desc">
+                </div>
+                <div>
+                    <label for="category">Category</label>
+                    <select name="category" id="proj_category">
+                        <option value="business">Business</option>
+                        <option value="education">Education</option>
+                        <option value="entertainment">Entertainment</option>
+                        <option value="fitness">Fitness</option>
+                        <option value="finance">Finance</option>
+                        <option value="games">Games</option>
+                        <option value="music">Music</option>
+                        <option value="productivity">Productivity</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="price"></label>
+                    <input type="number" name="price" id="price">
+                </div>
+                <input type="hidden" value="{{ user.id }}" name="creator">
+                <button class = 'btn btn-outline-success ml-2 mt-2'>Upload Project</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

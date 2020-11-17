@@ -1,29 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 </head>
 <body>
     <div class="row">
         <div class="col px-4 m-4">
             <h2>New User Registration</h2>
-            <form action="/register" method="post">
+            <form action="/login_reg/register" method="post">
                 {% csrf_token %}
                 <input class="form-control" type="text" name="fname" placeholder="First Name" required><br>
                 <input class="form-control" type="text" name="lname" placeholder="Last Name" required><br>
+                <input class="form-control" type="text" name="alias" placeholder="Alias" required><br>                
                 <input class="form-control" type="email" name="email" placeholder="Email Address" required><br>
                 <input class="form-control" type="password" name="password" placeholder="Password" required><br>
                 <input class="form-control" type="password" name="confirm_password" placeholder="Confirm Password" required><br>
+                <select name="role" id="role-reg">
+                    <option value="dev">Dev</option>
+                    <option value="client">Client</option>
+                </select>
                 <button class="btn btn-primary">Register</button>
             </form>
         </div>
         <div class="col px-4 m-4">
             <h2>Login existing user</h2>
-            <form action="/login" method="post">
+            <form action="/login_reg/login" method="post">
                 {% csrf_token %}
+                <select name="role" id="role_login">
+                    <option value="dev">Dev</option>
+                    <option value="client">Client</option>
+                </select>
                 <input class="form-control" type="email" name="email" placeholder="Email Address" required><br>
                 <input class="form-control" type="password" name="password" placeholder="Password" required><br>
                 <button class="btn btn-primary">Log In</button>
@@ -37,27 +48,43 @@
             {% endif %}
         </div>
     </div>
+    <div>
+        <h5 class = 'text-center'>admin use only</h5>
+    </div>
     <div class="row">
         <div class="col px-4 m-4">
-            <h2>Registered Users (admin use only)</h2>
-            {% if users %}
+            <h2>Registered Clients</h2>
+            {% if all_clients %}
                 <table class="table">
                     <tr>
-                        <th>User ID</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Email Address</th>
-                        <th>Password</th>
+                        <th>Alias</th>
+                        <th>Email</th>
                         <th>Action</th>
                     </tr>
-                    {% for user in users %}
+                    {% for client in all_clients %}
                         <tr>
-                            <td>{{user.id}}</td>
-                            <td>{{user.fname}}</td>
-                            <td>{{user.lname}}</td>
-                            <td>{{user.email}}</td>
-                            <td>{{user.password}}</td>
-                            <td><a href="delete/{{user.id}}">Delete</a></td>
+                            <td>{{client.alias}}</td>
+                            <td>{{client.email}}</td>
+                            <td><a href="delete/client/{{client.id}}">Delete</a></td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% endif %}    
+        </div>
+        <div class="col px-4 m-4">
+            <h2>Registered Devs</h2>
+            {% if all_devs %}
+                <table class="table">
+                    <tr>
+                        <th>Alias</th>
+                        <th>Email</th>
+                        <th>Action</th>
+                    </tr>
+                    {% for dev in all_devs %}
+                        <tr>
+                            <td>{{dev.alias}}</td>
+                            <td>{{dev.email}}</td>
+                            <td><a href="delete/dev/{{dev.id}}">Delete</a></td>
                         </tr>
                     {% endfor %}
                 </table>

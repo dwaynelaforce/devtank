@@ -9,6 +9,7 @@ ipython-genutils==0.2.0
 jedi==0.17.2
 parso==0.7.1
 pickleshare==0.7.5
+Pillow==8.0.1
 prompt-toolkit==3.0.8
 pycparser==2.20
 Pygments==2.7.2
