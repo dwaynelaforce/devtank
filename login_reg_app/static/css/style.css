@@ -1,0 +1,13 @@
+* {
+    margin: 0;
+    padding: 0;
+    outline: 0;
+    box-sizing: border-box;
+}
+#logo {
+    width: 250px;
+}
+body {
+    background-image: linear-gradient(to right, #58626b, #343A40) !important;
+    color: white !important;
+}
