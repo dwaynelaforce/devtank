@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <title>Upload Project</title>
+    <title>Edit Project</title>
 </head>
 <body>
     <nav>
@@ -20,19 +20,19 @@
     </nav>
     <div class="main">
         <h1>Upload Your Project</h1>
-        <form action="/create_project" method="post">
+        <form action="/edit_project/{{ project.id }}" method="post">
             {% csrf_token %}
             <div>
                 <label for="proj_name">Project Name</label>
-                <input type="text" name="proj_name">
+                <input type="text" name="proj_name" value="{{ proj.name }}">
             </div>
             <div>
                 <label for="quick_pitch">Quick Pitch</label>
-                <input type="text" name="quick_pitch">
+                <input type="text" name="pitch" value="{{ proj.pitch }}">
             </div>
             <div>
                 <label for="desc">Description</label>
-                <input type="text" name="desc">
+                <input type="text" name="desc" value="{{ proj.desc }}">
             </div>
             <div>
                 <label for="category">Category</label>
@@ -49,9 +49,8 @@
             </div>
             <div>
                 <label for="price">Price</label>
-                <input type="number" name="price" id="price">
+                <input type="number" name="price" id="price" value="{{ proj.price }}">
             </div>
-            <input type="hidden" value={{project.id}} name="project_id">
             <button class = 'btn btn-outline-success ml-2 mt-2'>Upload Project</button>
         </form>
     </div>

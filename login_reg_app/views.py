@@ -56,7 +56,7 @@ def login(request):
             if bcrypt.checkpw(request.POST['password'].encode(), this_client.password.encode()):
                 request.session['role'] = 'client'
                 request.session['client_id'] = this_client.id
-                return redirect('login_reg/success')
+                return redirect('/login_reg/success')
     elif request.POST['role'] == 'dev':
         dev_get = Dev.objects.filter(email=request.POST['email'])
         if dev_get:
@@ -70,6 +70,9 @@ def login(request):
 
 def success(request):
     return redirect('/dashboard')
+
+def new_chat(request):
+    pass
 
 def logout(request):
     request.session.flush()

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Page</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+</head>
+
+<body>
+
+    <nav>
+        <h3>DevTank</h3>
+        <p>Welcome, {{user.alias}} </p>
+        <div class="header">
+            <a href="/inbox/{{user.id}}">Inbox</a>
+            <a href="/logout">Logout</a>
+        </div>
+        <hr>
+    </nav>
+
+    <div class="main">
+        <div class="about_me_row">
+            <div class="about_me">
+                <h3>About Me</h3>
+                <div>
+                    <img class='rounded-circle' style='height: 100px; width: 100px; box-shadow: 3px 3px 10px lightblue;'
+                        src="{{user.profile_pic}}" alt="profile pic">
+                    <p id="about_me_text">{{ user.about }}</p>
+                </div>
+            </div>
+            <a href="/add_project">Upload Project</a>
+            <a href="/inbox/{{user.id}}">Send Message</a>
+        </div>
+        <div class="show_project_row">
+            <div class="your_projects">
+                <h4>Your Projects</h4>
+                {% for project in my_projects.all %}
+                <a href="/projects/{{project.id}}">{{project.name}}</a>
+                {% endfor %}
+            </div>
+            <div class="show_projects">
+                <h4>Show Projects</h4>
+                <img src="#" alt="Project Picture">
+            </div>
+            <div class="stats">
+                <p>Total Projects Area</p>
+                <p>Total Views Area</p>
+                <p>Total something area</p>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

@@ -22,15 +22,13 @@
 
     <div class="feature">
 
-        <h1>Project 1</h1>
-
-        <h1>Project 2</h1>
-
-        <h1>Project 3</h1>
-
-        <h1>Project 4</h1>
-
-        <h1>Project 5</h1>
+        {% for project in all_projects %}
+            <img src="{{project.project_pics.image}}" alt="Project Picture">
+            <h5><a href="/login_reg">{{project.name}}</a></h5>
+            <p>{{ project.pitch }}</p>
+            <p>{{ project.creator.alias }}</p>
+            <p>Watchers: {{project.watchers | length }}</p>
+        {% endfor %}
 
     </div>
 
