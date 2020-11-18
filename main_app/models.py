@@ -1,8 +1,9 @@
 from django.db import models
+from django.conf import settings
 from login_reg_app.models import Client, Dev
 from django.db.models import Q
 
-class PostManager(models.Manager):
+class PostQuerySet(models.QuerySet):
     def search(self, query=None):
         qs = self.get_queryset()
         if query is not None:
@@ -16,6 +17,13 @@ class PostManager(models.Manager):
                 )
             qs = qs.filter(or_lookup).distinct()
         return qs
+
+class PostManager(models.Manager):
+    def get_queryset(self):
+        return PostQuerySet(self.model, using=self._db)
+
+    def search(self, query=None):
+        return self.get_queryset().search(query=query)
 
 class Project(models.Model):
     name = models.CharField(max_length=20)

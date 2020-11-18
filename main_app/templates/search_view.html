@@ -4,19 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search Results</title>
-    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 </head>
 <body>
-    {% extends "dashboard.html" %}
+    
     {% load class_name %}
-    {% block content %}
+    
 
     <div class='row title-row my-5'>
         <div class='col-12 py-0'>
             <h3 class='my-0 py-0'>{{ count }} results for <b>{{ query }}</b></h3>
         </div>
     </div>
-            
+    {{ object_list }}
     {% for object in object_list %}
         {% with object|class_name as klass %}
             {% if klass == 'Dev' %}
@@ -60,6 +61,6 @@
         </div>
     </div>
     {% endfor %}
-    {% endblock content %}
+    
 </body>
 </html>
