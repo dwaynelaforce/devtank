@@ -20,10 +20,12 @@ def dashboard(request):
 
     if request.session['role'] == 'client':
         user = Client.objects.get(id=request.session['client_id'])
+        
         context = {
             'user': user,
-            'my_watchlist': Project.objects.filter(watchers=request.session['client_id']),
+            'my_watchlists': Project.objects.filter(watchers=request.session['client_id']),
             "all_projects": Project.objects.all(),
+            
         }
         return render(request, 'dashboard.html', context)
         
@@ -38,11 +40,21 @@ def dashboard(request):
         }
         return render(request, 'dashboard.html', context)
 
+def show_dev(request, dev_id):
+    context = {
+        'dev' : Dev.objects.get(id = dev_id)
+    }
+    return render(request, 'dev_profile.html', context)
 
 def show_project(request, project_id):
+    if request.session['role'] == 'client':
+        user = Client.objects.get(id=request.session['client_id'])
+    else:
+        user = Dev.objects.get(id=request.session['dev_id'])
     context = {
-        'project' : Project.objects.get(id = project_id)
-    }    
+        'project' : Project.objects.get(id = project_id),
+        'user' : user,
+        }    
     return render(request, 'project.html', context)
 
 
@@ -56,7 +68,7 @@ def add_project(request):
         'user': user,
     }
 
-    return render(request, 'upload_proj.html', context)
+    return render(request, 'upload_project.html', context)
 
 def create_project(request):
     form = request.POST
@@ -88,22 +100,22 @@ def create_project(request):
 
 def add_to_watchlist(request, project_id):
     added_project = Project.objects.get(id = project_id)
-    user = Client.objects.get(id = request.session['user_id'])
+    user = Client.objects.get(id=request.session['client_id'])
     added_project.watchers.add(user)
     return redirect('/dashboard')
     
 def remove_from_watchlist(request, project_id):
-    removed_project = Project.objects.get(id = project_id)
-    user = Client.objects.get(id = request.session['user_id'])
+    removed_project = Project.objects.get(id=project_id)
+    user = Client.objects.get(id=request.session['client_id'])
     removed_project.watchers.remove(user)
     return redirect('/dashboard')
     
-def delete_proj(request, project_id):
+def delete_project(request, project_id):
     proj = Project.objects.get(id=project_id)
     proj.delete()
     return redirect('/dashboard')
 
-def edit_proj(request, proj_id):
+def edit_project(request, proj_id):
     form = request.POST
     proj = Project.objects.get(id=proj_id)
     proj.name = form['proj_name']

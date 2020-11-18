@@ -25,8 +25,8 @@
             <div class="col-4">
                 <div class="row">
                     <a href="#"><img src="{{user.profile_pic}}" alt="Developer" class = 'rounded-circle float-left'></a>
-                    <a href="#"><p>Dev Alias</p></a>
-                    <a href="#"><button class='btn btn-outline-warning'>Category</button></a>
+                    <a href="/devs/{{project.creator.id}}"><p>{{project.creator.alias}}</p></a>
+                    <a href="#"><button class='btn btn-outline-warning'>{{project.category}}</button></a>
                     <p>Created At: {{project.uploaded_on}}</p>
                     <div class = 'row' style = 'border: 1px groove darkgrey; border-radius: 3px 3px 3px;'>
                     <p>Uploaded On: Nov. 17th, 2020</p>
@@ -40,15 +40,14 @@
         <div class="col-8">
             <div class = 'row'>
                 {% for project in this_project %}
-                    <img src="media/default.png" alt="project images" class = 'rounded'>
+                    <img src="/media/default.png" alt="project images" class = 'rounded'>
                 {% endfor %}
             </div>
             <div class="row">
                 <p>Project description</p>
             </div>
             <div class="row">
-                <h5>$19.99</h5>
-                <a href="#"><button class = 'btn btn-outline-success'>Add To Watchlist</button></a>
+                <h5>${{project.price}}</h5>
             </div>
         </div>
         </div>

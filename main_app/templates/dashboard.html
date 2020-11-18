@@ -12,9 +12,9 @@
 </head>
 <style>
     .main {
-    display: flex !important;
-    justify-content: space-around !important;
-}
+        display: flex !important;
+        justify-content: space-around !important;
+    }
 </style>
 
 <body>
@@ -37,29 +37,25 @@
     <div class="main">
 
         {% if user == dev  %}
-            <p>{{request.session.role}}</p>
-            <div class="your_projects">
-                <h4>My Projects</h4>
-                {% for project in my_projects.all %}
-                <p><a href="/projects/{{project.id}}">{{project.name}}</a></p>
-                {% endfor %}
-            </div>
-            
+        <div class="your_projects">
+            <h4>My Projects</h4>
+            {% for project in my_projects.all %}
+            <p><a href="/projects/{{project.id}}">{{project.name}}</a></p>
+            {% endfor %}
+        </div>
+
         <div class="all_projects">
             <h4>All Projects</h4>
             {% for project in all_projects %}
-                <p>{{project.id}}</p>
-                {% for img in project.project_pics.all %}
-                    {{img.image}}
-                <img src="{{img.image}}" alt="Project Picture">
-                {% endfor %}
+            <p>{{project.id}}</p>
+            <img src="/media/project_pics/photo-1494253109108-2e30c049369b.jpg" alt="Project Picture">
             <h5><a href="/projects/{{project.id}}">{{project.name}}</a></h5>
             <p>{{ project.pitch }}</p>
-            <p>{{ project.creator.alias }}</p>
-            <p>Watchers: {{project.watchers | length }}</p>
+            <h5><a href="/devs/{{project.creator.id}}">{{project.creator.alias}}</a></h5>
+            <p>Watchers: {{project.watchers | length}}</p>
             <form action="/delete_project/{{project.id}}" method="post">
                 {% csrf_token %}
-            <button>Delete</button>
+                <button>Delete</button>
             </form>
             {% endfor %}
         </div>
@@ -71,29 +67,33 @@
 
         {% else %}
         <a href="/inbox/{{user.id}}">Send Message</a>
-        
-        <p>{{request.session.role}}</p>
         <div class="your_watchlist">
             <h4>My Watchlist</h4>
-            {% for project in my_projects.all %}
+
+            {% for project in my_watchlists.all %}
             <p><a href="/projects/{{project.id}}">{{project.name}}</a></p>
             {% endfor %}
+
         </div>
         <div class="all_projects">
             <h4>All Projects</h4>
             {% for project in all_projects %}
-            <img src="{{project.project_pics.image}}" alt="Project Picture">
+            <img src="/media/project_pics/photo-1494253109108-2e30c049369b.jpg" alt="Project Picture" style = 'height:200px; width: 200px;'>
             <h5><a href="/projects/{{project.id}}">{{project.name}}</a></h5>
             <p>{{ project.pitch }}</p>
-            <p>{{ project.creator.alias }}</p>
+            <p><a href="/devs/{{project.creator.id}}">{{ project.creator.alias }}</a></p>
             <p>Watchers: {{project.watchers | length }}</p>
-            <button>Add to Watchlist</button>
-            <form action="/delete_project/{{project.id}}" method="post">
+            <!-- <form action="/delete_project/{{project.id}}" method="post">
                 {% csrf_token %}
             <button>Delete</button>
-            </form>
-            <a href="/add_to_watchlist/{{project.id}}"><button class = 'btn btn-outline-success'>Add to Watchlist</button></a>
-            <a href="/remove_from_watchlist/{{project.id}}"><button class = 'btn btn-outline-danger'>Remove from Watchlist</button></a>
+            </form> -->
+
+            <a href="/add_to_watchlist/{{project.id}}"><button class='btn btn-outline-success'>Add to
+                    Watchlist</button></a>
+            <a href="/remove_from_watchlist/{{project.id}}"><button class='btn btn-outline-danger'>Remove from
+                    Watchlist</button></a>
+            <br>
+            <hr>
             {% endfor %}
         </div>
         <div class="stats">
