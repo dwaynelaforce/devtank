@@ -28,11 +28,13 @@
                     <a href="#"><p>Dev Alias</p></a>
                     <a href="#"><button class='btn btn-outline-warning'>Category</button></a>
                     <p>Created At: {{project.uploaded_on}}</p>
-                    <div class = 'row' style = 'border: 1px groove darkgrey; border-radius: 3px 3px 3px:'>
-                        <p>Uploaded On: Nov. 17th, 2020</p>
+                    <div class = 'row' style = 'border: 1px groove darkgrey; border-radius: 3px 3px 3px;'>
+                    <p>Uploaded On: Nov. 17th, 2020</p>
                     </div>
                 </div>
             </div>
+            <a href="/add_to_watchlist/{{project.id}}"><button class = 'btn btn-outline-success'>Add to Watchlist</button></a>
+            <a href="/remove_from_watchlist/{{project.id}}"><button class = 'btn btn-outline-danger'>Remove from Watchlist</button></a>
         </div>
         <div class = 'd-flex justify-content-center'>
         <div class="col-8">
@@ -49,7 +51,11 @@
                 <a href="#"><button class = 'btn btn-outline-success'>Add To Watchlist</button></a>
             </div>
         </div>
-    </div>
+        </div>
+
+        <div class="proj_comments">
+
+        </div>
 
     </div>
 </body>

@@ -19,6 +19,8 @@
 
 <body>
 
+    <img src="{{ all_projects.first.project_pics.first.image }}" alt="">
+
     <nav>
         <h3>DevTank</h3>
         <p>Welcome, {{user.alias}} </p>
@@ -29,9 +31,7 @@
         <hr>
     </nav>
     <div class="about_me_row">
-        {% if request.session.role == dev %}
         <a href="/add_project">Upload Project</a>
-        {% endif %}
     </div>
 
     <div class="main">
@@ -48,7 +48,11 @@
         <div class="all_projects">
             <h4>All Projects</h4>
             {% for project in all_projects %}
-            <img src="{{project.project_pics.image}}" alt="Project Picture">
+                <p>{{project.id}}</p>
+                {% for img in project.project_pics.all %}
+                    {{img.image}}
+                <img src="{{img.image}}" alt="Project Picture">
+                {% endfor %}
             <h5><a href="/projects/{{project.id}}">{{project.name}}</a></h5>
             <p>{{ project.pitch }}</p>
             <p>{{ project.creator.alias }}</p>
@@ -88,6 +92,8 @@
                 {% csrf_token %}
             <button>Delete</button>
             </form>
+            <a href="/add_to_watchlist/{{project.id}}"><button class = 'btn btn-outline-success'>Add to Watchlist</button></a>
+            <a href="/remove_from_watchlist/{{project.id}}"><button class = 'btn btn-outline-danger'>Remove from Watchlist</button></a>
             {% endfor %}
         </div>
         <div class="stats">

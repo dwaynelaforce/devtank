@@ -1,6 +1,8 @@
+from django.db.models.query_utils import Q
 from django.shortcuts import render, redirect
 from login_reg_app.models import *
 from .models import *
+# from django.db.models import Q
 
 def index(request):
     #project = Project.objects.get(len(watchers))
@@ -32,7 +34,7 @@ def dashboard(request):
         context = {
             'user': user,
             'my_projects': Project.objects.filter(creator=request.session['dev_id']),
-            "all_projects": Project.objects.all(),   
+            "all_projects": Project.objects.all(),
         }
         return render(request, 'dashboard.html', context)
 
@@ -67,20 +69,35 @@ def create_project(request):
         creator = Dev.objects.get(id=request.session['dev_id'])
     )
     project_id = new_project.id
-    return redirect('/upload_proj_img')
-
-def upload_proj_img(request):
-    return render(request, 'project_image.html')
-
-######### Add project Image ##########
-def add_project_img(request, project_id):
-    project = Project.objects.get(id = project_id)
-    pic = Project_Image.objects.create(
-        image = request.FILES['image'],
-        project = project,
-    )
     return redirect('/dashboard')
 
+# def upload_proj_img(request,project_id):
+#     context = {
+#         'project' : Project.objects.get(id = project_id)
+#     }
+#     return render(request, 'project_image.html', context)
+
+######### Add project Image ##########
+# def add_project_img(request, project_id):
+#     project = Project.objects.get(id = project_id)
+#     pic = Project_Image.objects.create(
+#         image = request.FILES['image'],
+#         project_pic = project,
+#     )
+#     return redirect('/dashboard')
+
+def add_to_watchlist(request, project_id):
+    added_project = Project.objects.get(id = project_id)
+    user = Client.objects.get(id = request.session['user_id'])
+    added_project.watchers.add(user)
+    return redirect('/dashboard')
+    
+def remove_from_watchlist(request, project_id):
+    removed_project = Project.objects.get(id = project_id)
+    user = Client.objects.get(id = request.session['user_id'])
+    removed_project.watchers.remove(user)
+    return redirect('/dashboard')
+    
 def delete_proj(request, project_id):
     proj = Project.objects.get(id=project_id)
     proj.delete()
@@ -117,7 +134,7 @@ def edit_proj(request, proj_id):
 #     elif request.session['role'] == 'dev':
 #         user = Dev.objects.get(id=request.session['dev_id'])
 
-    
+
 #     context = {
 #         'user': user,
 #         "all_devs": Dev.objects.all(),
@@ -148,6 +165,40 @@ def edit_proj(request, proj_id):
 #     return render(request, 'about.html')
 
 #       ----->End Message Area<-----
+
+#       ----->search bar<-----
+# def search_db(query=None):
+#     queryset = []
+#     queries = query.split(' ')
+#     for q in queries:
+#         dev_names = Devs.objects.filter(
+#             Q(fname__icontrains=q)
+#             Q(lname__icontrains=q)
+#             Q(alias__icontrains=q)
+#          ).distainct
+#          for devs in dev_names:
+#              queryset.append(devs)
+#
+#     for q in queries:
+#         projects = Project.objects.filter(
+#             Q(name__icontrains=q)
+#             Q(pitch__icontrains=q)
+#             Q(category__icontrains=q)
+#             Q(about__icontrains=q)
+#             Q(price__icontrains=q)
+#             Q(creator__icontrains=q)
+#          ).distainct
+#          for proj_info in projects:
+#              queryset.append(proj_info)
+#     search_results = list(set(queryset))
+#
+#     context = {}
+#     query = ""
+#     if request.GET:
+#         query = request.GET['q']
+#         context['query'] = str(query)
+#
+#     
 
 def about(request):
     return render(request, 'about.html')

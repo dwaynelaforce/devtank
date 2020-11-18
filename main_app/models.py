@@ -31,4 +31,10 @@ class Project_Image(models.Model):
 #     created_at = models.DateTimeField(auto_now_add=True)
 #     updated_at = models.DateTimeField(auto_now=True)
 
+# class Project_Messages(models.Model):
+#     post = models.CharField(max_length=300)
+#     project = models.ForeignKey(Project, related_name='project_comments', on_delete=models.CASCADE)
+#     created_at = models.DateTimeField(auto_now_add=True)
+#     updated_at = models.DateTimeField(auto_now=True)
+
 # Create your models here.
