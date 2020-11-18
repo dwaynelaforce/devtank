@@ -27,6 +27,12 @@
         <div class="header">
             <a href="/inbox/{{user.id}}">Inbox</a>
             <a href="/logout">Logout</a>
+            <form action="/search_db" method="GET">
+                {% csrf_token %}
+                <label for="search_bar"></label>
+                <input type="text" name="search_bar">
+                <button>Search</button>
+            </form>
         </div>
         <hr>
     </nav>
@@ -52,7 +58,7 @@
             <h5><a href="/projects/{{project.id}}">{{project.name}}</a></h5>
             <p>{{ project.pitch }}</p>
             <h5><a href="/devs/{{project.creator.id}}">{{project.creator.alias}}</a></h5>
-            <p>Watchers: {{project.watchers | length}}</p>
+            <p>Watchers: {{project.watchers.all | length}}</p>
             <form action="/delete_project/{{project.id}}" method="post">
                 {% csrf_token %}
                 <button>Delete</button>
@@ -82,7 +88,7 @@
             <h5><a href="/projects/{{project.id}}">{{project.name}}</a></h5>
             <p>{{ project.pitch }}</p>
             <p><a href="/devs/{{project.creator.id}}">{{ project.creator.alias }}</a></p>
-            <p>Watchers: {{project.watchers | length }}</p>
+            <p>Watchers: {{project.watchers.all | length }}</p>
             <!-- <form action="/delete_project/{{project.id}}" method="post">
                 {% csrf_token %}
             <button>Delete</button>

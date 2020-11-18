@@ -1,5 +1,21 @@
 from django.db import models
 from login_reg_app.models import Client, Dev
+from django.db.models import Q
+
+class PostManager(models.Manager):
+    def search(self, query=None):
+        qs = self.get_queryset()
+        if query is not None:
+            or_lookup = (
+                Q(name__icontains=query) |
+                Q(pitch__icontains=query) |
+                Q(about__icontains=query) |
+                Q(price__icontains=query) |
+                Q(creator__icontains=query) |
+                Q(category__icontains=query)
+                )
+            qs = qs.filter(or_lookup).distinct()
+        return qs
 
 class Project(models.Model):
     name = models.CharField(max_length=20)
@@ -7,10 +23,12 @@ class Project(models.Model):
     about = models.CharField(max_length=500)
     category = models.CharField(max_length=25)
     price = models.DecimalField(max_digits=5,decimal_places=2)
+    times_viewed = models.IntegerField()
     creator = models.ForeignKey(Dev, related_name="developed_by", on_delete = models.CASCADE)
     watchers = models.ManyToManyField(Client, related_name="watched_by")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    objects = PostManager()
 
 class Project_Image(models.Model):
     image = models.ImageField(upload_to='media/project_pics')
@@ -36,5 +54,7 @@ class Project_Image(models.Model):
 #     project = models.ForeignKey(Project, related_name='project_comments', on_delete=models.CASCADE)
 #     created_at = models.DateTimeField(auto_now_add=True)
 #     updated_at = models.DateTimeField(auto_now=True)
+
+
 
 # Create your models here.

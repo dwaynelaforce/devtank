@@ -18,5 +18,6 @@ urlpatterns = [
     path('remove_from_watchlist/<int:project_id>', views.remove_from_watchlist),
     # path('new_chat', views.new_chat),
     # path('new_reply', views.new_reply),
+    path('search_db', views.SearchBar.as_view()),
     path('logout', views.logout),
 ]

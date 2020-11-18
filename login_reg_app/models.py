@@ -18,6 +18,19 @@ class UserManager(models.Manager):
         if postdata['password'] != postdata['confirm_password']:
             errors['confirm_password'] = "Passwords do not match"
         return errors
+    def search(self, query=None):
+        qs = self.get_queryset()
+        if query is not None:
+            or_lookup = (
+                Q(name__icontains=query) |
+                Q(pitch__icontains=query) |
+                Q(about__icontains=query) |
+                Q(price__icontains=query) |
+                Q(creator__icontains=query) |
+                Q(category__icontains=query)
+                )
+            qs = qs.filter(or_lookup).distinct()
+        return qs
 
 class Client(models.Model):
     fname = models.CharField(max_length=50)

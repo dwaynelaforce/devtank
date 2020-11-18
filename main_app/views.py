@@ -2,7 +2,11 @@ from django.db.models.query_utils import Q
 from django.shortcuts import render, redirect
 from login_reg_app.models import *
 from .models import *
-# from django.db.models import Q
+from django.db.models import Q
+# from django.views.generic.list import ListView
+from django.views.generic import ListView
+from itertools import chain
+
 
 def index(request):
     #project = Project.objects.get(len(watchers))
@@ -51,9 +55,16 @@ def show_project(request, project_id):
         user = Client.objects.get(id=request.session['client_id'])
     else:
         user = Dev.objects.get(id=request.session['dev_id'])
+    
+
+    this_project = Project.objects.get(id=project_id)
+    
+    views = this_project.times_viewed + 1
+
     context = {
-        'project' : Project.objects.get(id = project_id),
+        'project' : this_project,
         'user' : user,
+        'views': views,
         }    
     return render(request, 'project.html', context)
 
@@ -119,13 +130,9 @@ def edit_project(request, proj_id):
     form = request.POST
     proj = Project.objects.get(id=proj_id)
     proj.name = form['proj_name']
-    proj.save()
     proj.pitch = form['pitch']
-    proj.save()
     proj.about = form['desc']
-    proj.save()
     proj.category = form['category']
-    proj.save()
     proj.price = form['price']
     proj.save()
     return redirect('/dashboard')
@@ -179,38 +186,35 @@ def edit_project(request, proj_id):
 #       ----->End Message Area<-----
 
 #       ----->search bar<-----
-# def search_db(query=None):
-#     queryset = []
-#     queries = query.split(' ')
-#     for q in queries:
-#         dev_names = Devs.objects.filter(
-#             Q(fname__icontrains=q)
-#             Q(lname__icontrains=q)
-#             Q(alias__icontrains=q)
-#          ).distainct
-#          for devs in dev_names:
-#              queryset.append(devs)
-#
-#     for q in queries:
-#         projects = Project.objects.filter(
-#             Q(name__icontrains=q)
-#             Q(pitch__icontrains=q)
-#             Q(category__icontrains=q)
-#             Q(about__icontrains=q)
-#             Q(price__icontrains=q)
-#             Q(creator__icontrains=q)
-#          ).distainct
-#          for proj_info in projects:
-#              queryset.append(proj_info)
-#     search_results = list(set(queryset))
-#
-#     context = {}
-#     query = ""
-#     if request.GET:
-#         query = request.GET['q']
-#         context['query'] = str(query)
-#
-#     
+
+class SearchBar(ListView):
+    template_name = 'search_view.html'
+    paginate_by = 20
+    count= 0
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['count'] = self.count or 0
+        context['query'] = self.request.GET.get('q')
+        return context
+
+    def get_queryset(self):
+        request = self.request
+        query = request.GET.get('q', None)
+        if query is not None:
+            dev_results = Dev.objects.search(query)
+            project_results = Projects.objects.search(query)
+            queryset_chian = chain(
+                dev_results,
+                project_results,
+                )
+            qs = sorted(queryset_chain,
+                key=lambda instance: instance.pk,
+                reverse=True)
+            self.count = len(qs)
+            print(qs)
+            return qs
+        return Dev.objects.none()
 
 def about(request):
     return render(request, 'about.html')

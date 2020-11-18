@@ -3,13 +3,6 @@
     margin: 0px;
 }
 
-nav {
-    margin: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-content: center;
-}
-
 .feature {
     margin-left: 150px;
 }
