@@ -7,7 +7,6 @@ from django.db.models import Q
 from django.views.generic import ListView
 from itertools import chain
 
-
 def index(request):
     #project = Project.objects.get(len(watchers))
     all_projects = Project.objects.all()
@@ -17,14 +16,14 @@ def index(request):
             top_5.append(project)
         else:
             break
-    
+
     context = {
         "all_projects": all_projects,
         "project_0": top_5[0],
-        "project_0": top_5[0],
-        "project_0": top_5[0],
-        "project_0": top_5[0],
-        "project_0": top_5[0]
+        "project_1": top_5[1],
+        "project_2": top_5[2],
+        "project_3": top_5[3],
+        "project_4": top_5[4]
 
     }
     return render(request, 'index.html', context)
@@ -165,35 +164,45 @@ def inbox(request, user_id):
     elif request.session['role'] == 'dev':
         user = Dev.objects.get(id=request.session['dev_id'])
 
-
     context = {
         'user': user,
         "all_devs": Dev.objects.all(),
         'sent_messages': Chat.objects.all()
     }
+    
     return render(request, 'inbox.html', context)
 
-# def new_chat(request):
-#     form = request.POST
-#     user = Dev.objects.get(id=form['user_id'])
-#     sent_to = Dev.objects.get(id=form['other_dev_id'])
-#     Chat.objects.create(
-#         text = form['text'],
-#         starter = user,
-#         messager = form['dev_id']
-#     )
-#     return redirect(f'inbox/{form['user_id']}')
+def new_chat(request):
+    form = request.POST
+    
+    if request.session['role'] == 'dev':
+        user = Dev.objects.get(id=request.session['dev_id'])
+        return redirect(f'/message/{user.id}/inbox')
+        
+    elif request.session['role'] == 'client':
+        user = Client.objects.get(id=request.session['client_id'])
+        
+        this_chat = Chat.objects.create(
+            text = form['text'],
+            starter = user,
+        )
+    
+    return redirect(f'/message/{user.id}/inbox')
 
-# def new_reply(request):
-#     form = request.POST
-#     convo = Chat.objects.get(id=form['message.id'])
-#     user = Dev.objects.get(id=form['user.id'])
-#     Reply.objects.create(
-#         post = form['post'],
-#         replier = user,
-#         convo = convo
-#     )
-#     return render(request, 'about.html')
+def new_reply(request, message_id):
+    if request.session['role'] == 'client':
+        user = Client.objects.get(id=request.session['client_id'])
+    elif request.session['role'] == 'dev':
+        user = Dev.objects.get(id=request.session['dev_id'])
+        
+    form = request.POST
+    
+    Reply.objects.create(
+        post = form['text'],
+        replier = user,
+        convo = form['message_id'],
+    )
+    return redirect(f'/message/{user.id}/inbox')
 
 #       ----->End Message Area<-----
 
@@ -237,6 +246,46 @@ def about(request):
 def logout(request):
     request.session.flush()
     return redirect('/')
+
+#   ---->edit profile<-----
+def edit_profile_page(request, user_id):
+    if request.session['role'] == 'client':
+        user = Client.objects.get(id=request.session['client_id'])
+    elif request.session['role'] == 'dev':
+        user = Dev.objects.get(id=request.session['dev_id'])
+    context = {
+        'user': user,
+    }
+    return render(request, 'edit_profile.html', context)
+
+def edit_profile(request, user_id):
+    form = request.POST
+    if request.session['role'] == 'client':
+        user_logged = Client.objects.get(id=user_id)
+        user_logged.fname = form['fname']
+        user_logged.lname = form['lname']
+        user_logged.alias = form['alias']
+        user_logged.email = form['email']
+        user_logged.save()
+    if request.session['role'] == 'dev':
+        user_logged = Dev.objects.get(id=user_id)
+        user_logged.fname = form['fname']
+        user_logged.lname = form['lname']
+        user_logged.alias = form['alias']
+        user_logged.email = form['email']
+        user_logged.about = form['about']
+        user_logged.save()
+    return redirect(f'/devs/{user_id}')
+
+#   ----->search categorys<-----
+def search_categories(request):
+    if request.POST['category']:
+        return render(request, 'category.html')
+    cat = Projects.objects.filter(categorys = request.POST['category'])
+    context = {
+        'categories': cat,
+    }
+    return render(request, 'category.html', context)
 
 
 ######### INFO YOU NEED TO KNOW ABOUT LOGGED IN USER ############

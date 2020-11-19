@@ -24,12 +24,13 @@
             <p class="mt-3">
                 <a class="text-white" href="/">Home</a><span>  |  </span>
                 <a class="text-white" href="/about">About Us</a>
+                <a class="text-white" href="/search_categories">Search By Category</a>
             </p>
         </div>
         
         <p class="mt-3">
             <a class="text-white" href="#">Search</a><span>  |  </span>
-            <a class="text-white" href="/inbox/{{user.id}}">Messages</a><span>  |  </span>
+            <a class="text-white" href="/message/{{user.id}}/inbox">Messages</a><span>  |  </span>
             <a class="text-white" href="#">Upload Project</a>
         </p>
         <p class="mt-3">
@@ -39,21 +40,6 @@
     </div>
     <img src="{{ all_projects.first.project_pics.first.image }}" alt="">
 
-    <nav>
-        <h3>DevTank</h3>
-        <p>Welcome, {{user.alias}} </p>
-        <div class="header">
-            <a href="/inbox/{{user.id}}">Inbox</a>
-            <a href="/logout">Logout</a>
-            <form action="/search_db" method="GET">
-                {% csrf_token %}
-                <label for="search_bar"></label>
-                <input type="text" name="search_bar">
-                <button>Search</button>
-            </form>
-        </div>
-        <hr>
-    </nav>
     <div class="about_me_row">
         <a href="/add_project">Upload Project</a>
     </div>

@@ -6,6 +6,35 @@
     <title>Categories</title>
 </head>
 <body>
-    
+    <div class="container">
+        <div class="header">
+            <h1>DevTank</h1>
+        </div>
+        <div class="main">
+            <form action="/search_categorys" method="POST">
+                {% csrf_token %}
+                <label for="category">Filter by Categoty:</label>
+                <select name="category" id="category">
+                    <option value="business">Business</option>
+                    <option value="education">Education</option>
+                    <option value="entertainment">Entertainment</option>
+                    <option value="fitness">Fitness</option>
+                    <option value="finance">Finance</option>
+                    <option value="games">Games</option>
+                    <option value="music">Music</option>
+                    <option value="productivity">Productivity</option>
+                </select>
+                <button>Submit</button>
+            </form>
+            {% for cats in categories %}
+                <div>
+                    <h2>{{ cats.name }}</h2>
+                    <p>{{ cats.creator }}</p>
+                    <p>{{ cats.pitch }}</p>
+                    <p>{{ cats.price }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 </body>
 </html>

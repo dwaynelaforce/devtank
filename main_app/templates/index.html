@@ -133,11 +133,11 @@
             </ul>
         </div>
         <div class="categories">
-            <!-- {% for project in project.categories.all %} -->
+            {% for project in project.categories.all %}
 
-            <a href="/category_search_button"><button
+            <a href="//search_categories"><button
                     style='border-radius: 10px solid black; background-color: beige;'>{{project.category}}</button></a>
-            <!-- {% endfor %} -->
+            {% endfor %}
 
             <a href="/category_search_button/{{project.category}}"><button
                     style='border-radius: 10px solid black; background-color: beige;' value = "Business">Business</button></a>
