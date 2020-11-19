@@ -28,7 +28,6 @@ def index(request):
     return render(request, 'index.html', context)
 
 def dashboard(request):
-
     if 'role' not in request.session:
         return redirect('/')
 
@@ -64,10 +63,8 @@ def show_project(request, project_id):
         user = Client.objects.get(id=request.session['client_id'])
     else:
         user = Dev.objects.get(id=request.session['dev_id'])
-    
 
     this_project = Project.objects.get(id=project_id)
-    
     views = this_project.times_viewed + 1
 
     context = {
@@ -101,22 +98,24 @@ def create_project(request):
         creator = Dev.objects.get(id=request.session['dev_id'])
     )
     project_id = new_project.id
-    return redirect('/dashboard')
+    return redirect(f'/upload_proj_img/{project_id}')
 
-# def upload_proj_img(request,project_id):
-#     context = {
-#         'project' : Project.objects.get(id = project_id)
-#     }
-#     return render(request, 'project_image.html', context)
+def upload_proj_img(request,project_id):
+    context = {
+        'project' : Project.objects.get(id = project_id)
+    }
+    return render(request, 'project_image.html', context)
 
 ######### Add project Image ##########
-# def add_project_img(request, project_id):
-#     project = Project.objects.get(id = project_id)
-#     pic = Project_Image.objects.create(
-#         image = request.FILES['image'],
-#         project_pic = project,
-#     )
-#     return redirect('/dashboard')
+
+def add_project_img(request, project_id):
+    project = Project.objects.get(id = project_id)
+    pic = Project_Image.objects.create(
+        image = request.FILES['image'],
+        project_pic = project,
+    )
+    
+    return redirect(f'/projects/{project_id}')
 
 def add_to_watchlist(request, project_id):
     added_project = Project.objects.get(id = project_id)
@@ -186,7 +185,7 @@ def new_chat(request):
     if request.session['role'] == 'dev':
         user = Dev.objects.get(id=request.session['dev_id'])
         
-        return redirect(f'/message/{user.id}/inbox')
+        return redirect('/inbox')
         
     elif request.session['role'] == 'client':
         user = Client.objects.get(id=request.session['client_id'])

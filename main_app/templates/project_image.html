@@ -56,27 +56,13 @@
         {% endif %}
     </div>
     <!-- end navbar -->
-    <h3>Upload up to 8 images for your project</h3>
+    <h3>Upload up to 4 images for your project</h3>
 
     <div>
         <form action="/add_project_img/{{project.id}}" method="POST" enctype='multipart/form-data'>
             {% csrf_token %}
-            <label for="image">Image 1</label>
+            <label for="image">Image : </label>
             <input type="file" name='image'>
-            <label for="image">Image 2</label>
-            <input type="file" name='image' accept="image/*">
-            <label for="image">Image 3</label>
-            <input type="file" name='image' accept="image/*">
-            <label for="image">Image 4</label>
-            <input type="file" name='image' accept="image/*">
-            <label for="image">Image 5</label>
-            <input type="file" name='image' accept="image/*">
-            <label for="image">Image 6</label>
-            <input type="file" name='image' accept="image/*">
-            <label for="image">Image 7</label>
-            <input type="file" name='image' accept="image/*">
-            <label for="image">Image 8</label>
-            <input type="file" name='image' accept="image/*">
             <input type="hidden" name='project_id' value='{{project.id}}'>
             <button class='btn btn-info'>Upload Images</button>
         </form>
