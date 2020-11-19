@@ -27,18 +27,19 @@
         <h3>Messages:</h3>
     </div>
     <div class="new">
-        <form action="/new_chat" method="POST">
+        <form action="/new" method="POST">
             {% csrf_token %}
             <label for="new_chat">New Chat</label>
             <select name="dev_chat">
-                <option value=""></option>
                 {% for dev in all_devs %}
                 <option value="{{dev.id}}">{{dev.alias}}</option>
                 {% endfor %}
             </select>
             <input type="text" name="text" id="text">
             <input type="hidden" name="starter" value='{{user.id}}'>
-            <button type="submit">Submit</button>
+            
+            <button type="submit" class = 'btn btn-success'>Submit</button>
+            
         </form>
     </div>
 
@@ -51,13 +52,20 @@
         <!-- endfor -->
     </div>
 
-    <div class="all_chats">
-        <!-- for chats in user.started_by -->
-            <!-- <a href="#"><p>chats.messager</p></a> -->
-        <!-- endfor -->
+    <div class="all_chats" style = 'margin-left: 100px;'>
+        {% for message in sent_messages.all %}
+        <p>{{message.starter.alias}} said: {{message.text}}</p>
+        
+        <form action="/new_reply/{{message.id}}" method="POST">
+            {% csrf_token %}
+            <input type="text" name="text" id="text">
+            <input type="hidden" name="user_id" value='{{user.id}}'>
+            <input type="hidden" name="message_id" value='{{message.id}}'>
+            <button type="submit" class = 'btn btn-info'>Reply</button>
+        </form>
+
+        {% endfor %}
     </div>
-
-
 
 </body>
 

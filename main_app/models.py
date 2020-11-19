@@ -55,7 +55,8 @@ class Chat(models.Model):
     
 class Reply(models.Model):
     post = models.CharField(max_length=255)
-    replier = models.ForeignKey(Dev, related_name="replies", null = True, on_delete = models.CASCADE)
+    dev_replier = models.ForeignKey(Dev, related_name="dev_replies", null = True, on_delete = models.CASCADE)
+    client_replier = models.ForeignKey(Client, related_name="client_replies", null = True, on_delete = models.CASCADE)
     convo = models.ForeignKey(Chat, related_name="comments", on_delete = models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
