@@ -62,10 +62,11 @@
                     <p class="bg-light p-2 my-2 rounded-lg text-center">
                         <a class = "text-info" href="/projects/{{project.id}}">{{project.name}}</a>
                     </p>
-                
-            </div>
+                {% endfor %}
+            </div> 
             <div class="col">
                 <h4>Projects Feed</h4>
+                {% for project in dev.developed_by.all %}
                     <div class="project_info bg-secondary rounded-lg p-3 my-3">
                         <h5><a href="/projects/{{project.id}}">{{project.name}}</a></h5>
                         <div class="row">
@@ -80,14 +81,12 @@
                                     <!-- endfor -->
                                 </div>
                             </div>
-
                         </div>
                     </div>
-                    {% endfor %}
+                {% endfor %}
             </div>
         </div>
     </div>
-
 </body>
 
 </html>
