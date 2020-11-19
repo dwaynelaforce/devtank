@@ -7,20 +7,25 @@ from django.db.models import Q
 from django.views.generic import ListView
 from itertools import chain
 
-
 def index(request):
-    top_project = Project.objects.first()
+    #project = Project.objects.get(len(watchers))
+    all_projects = Project.objects.all()
+    top_5 = []
+    for project in all_projects:
+        if len(top_5) < 6:
+            top_5.append(project)
+        else:
+            break
 
-    #newDict = {}
-    
     context = {
-        "all_projects": Project.objects.all(),
-        # 'top_projects': project[:5] 
-    }
+        "all_projects": all_projects,
+        "project_0": top_5[0],
+        "project_1": top_5[1],
+        "project_2": top_5[2],
+        "project_3": top_5[3],
+        "project_4": top_5[4]
 
-    # for i in range(5):
-    #     context[f'project_{i}'] = Project.objects.get(id=i)  
-        
+    }
     return render(request, 'index.html', context)
 
 def dashboard(request):
