@@ -19,27 +19,44 @@
 </style>
 
 <body>
-    <div class="d-flex align-items-center justify-content-between px-4 bg-primary" id="navbar">
+    <!-- navbar -->
+    <div id="navbar" class="d-flex align-items-center justify-content-between px-4 bg-primary">
         <div class="d-flex align-items-center">
             <a href="/dashboard"><img id="logo" src="{% static 'img/devtank_logo_4.png' %}" alt="devtank home page"></a>
             <p class="mt-3">
-                <a class="text-white" href="/dashboard">Home</a><span> | </span>
-                <a class="text-white" href="/about">About Us</a><span> | </span>
+                <a class="text-white" href="/dashboard">Home</a>
+                <span>  |  </span>
+                <a class="text-white" href="/about">About Us</a>
+                <span>  |  </span>
                 <a class="text-white" href="/search">Search By Category</a>
             </p>
         </div>
-        <p class="mt-3">
-            <a class="text-white" href="/message/{{user.id}}/inbox">Messages</a><span> | </span>
+        {% if 'role' in request.session %}
             {% if request.session.role == 'dev' %}
-            <a class="text-white" href="/add_project">Upload Project</a><span> | </span>
+                <p class="mt-3">
+                    <a class="text-white" href="/message/{{request.session.dev_id}}/inbox">Messages</a>
+                    <span>  |  </span>
+                    <a class="text-white" href="/add_project">Upload Project</a>
+                </p>
+                <p class="mt-3">
+                    <a class="text-white" href="/devs/{{dev.id}}">{{dev.alias}}</a>
+                    <span>  |  </span>
+                    <a class="text-white" href="/logout">Log Out</a>
+                </p>
             {% endif %}
-            <a class="text-white" href="/edit_profile_page/{{dev.id}}" value="{{dev.id}}">Edit Profile</a>
-        </p>
-        <p class="mt-3">
-            <a class="text-white" href="#">{{user.alias}}</a><span> | </span>
-            <a class="text-white" href="/logout">Log Out</a>
-        </p>
+            {% if request.session.role == 'client' %}
+                <p class="mt-3">
+                    <a class="text-white" href="/message/{{request.session.client_id}}/inbox">Messages</a>
+                </p>
+                <p class="mt-3">
+                    {{client.alias}}<a class="text-white" href="/logout">Log Out</a>
+                </p>
+            {% endif %}
+        {% else %}
+            <a class="text-white" href="/login_reg">Log In</a>
+        {% endif %}
     </div>
+    <!-- end navbar -->
     <div id="main" class="px-5">
         <div class="row my-4" id="about_me">
             <div class="col-2">
