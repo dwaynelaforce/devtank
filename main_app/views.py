@@ -45,7 +45,6 @@ def dashboard(request):
         
     ######### Changed to else, try running code now #########    
     else:
-        request.session['role'] == 'dev'
         user = Dev.objects.get(id=request.session['dev_id'])
         context = {
             'user': user,
