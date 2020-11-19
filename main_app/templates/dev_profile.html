@@ -57,7 +57,7 @@
                     src="/media/default.png" alt="profile pic" id="profile_pic"><br>
                     {% if request.session.role == 'dev' %}
                         {% if request.session.dev_id == dev.id%}
-                            <a href="">Edit Profile</a>
+                            <a href="/edit_profile_page/{{request.session.dev_id}}">Edit Profile</a>
                         {% endif %}
                     {% endif %}
             </div>
