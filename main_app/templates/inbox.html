@@ -57,45 +57,70 @@
     </div>
     <!-- end navbar -->
 
-    <div class="inbox">
-        <h3>Messages:</h3>
-    </div>
-    <div class="new">
+    <div class="w-50 mx-auto" id="main_inbox">
+
+        <h3>Inbox ({{user.alias}})</h3>
+
         {% if request.session.role == 'client' %}
-        <form action="/new" method="POST">
-            {% csrf_token %}
-            <label for="new_chat">New Chat</label>
-            <select name="dev_chat">
-                {% for dev in all_devs %}
-                <option value="{{dev.id}}">{{dev.alias}}</option>
-                {% endfor %}
-            </select>
-            <input type="text" name="text" id="text">
-            <input type="hidden" name="starter" value='{{user.id}}'>
-            <button type="submit" class='btn btn-success'>Submit</button>
-        </form>
+            <div id="new_message_client">
+                
+                <form action="/new" method="POST">
+                    {% csrf_token %}
+                    <label for="new_chat">New Chat</label>
+                    <select name="dev_chat">
+                        {% for dev in all_devs %}
+                        <option value="{{dev.id}}">{{dev.alias}}</option>
+                        {% endfor %}
+                    </select>
+                    <input type="text" name="text" id="text">
+                    <input type="hidden" name="starter" value='{{user.id}}'>
+                    <button type="submit" class='btn btn-success'>Submit</button>
+                </form>
+                
+            </div>
         {% endif %}
-    </div>
 
-    <div class="all_chats" style='margin-left: 100px;'>
-        {% for message in sent_messages.all %}
-        <p>{{message.starter.alias}} said: {{message.text}}</p>
-            {% for reply in message.comments.all %}
-                {% if reply.dev_replier %}
-                    <p>{{reply.dev_replier.alias}} said: {{reply.post}}</p>
-                {% elif reply.client_replier %}
-                    <p>{{reply.client_replier.alias}} said: {{reply.post}}</p>
-                {% endif %}
+        <div id="all_chats">
+            {% for message in sent_messages.all %}
+                <div class="bg-transparent m-4 p-3 border border-light rounded">
+                    <div class="my-2">
+                        <p class="my-0"><small>{{message.created_at}}</small></p>
+                        <p class="my-0"><small>{{message.starter.alias}} said:</small></p>
+                        <div class="bg-dark border border-light rounded mb-2 w-75 p-2">
+                            <p class="ml-3">{{message.text}}</p>
+                        </div>
+                    </div>
+                    {% for reply in message.comments.all %}
+                        {% if reply.dev_replier %}
+                            <div class="my-2">
+                                <p class="text-right mr-2 my-0"><small>{{reply.created_at}}</small></p>
+                                <p class="text-right mr-2 my-0"><small>{{reply.dev_replier.alias}} said:</small></p>
+                                <div class="row mb-2 mr-1">
+                                    <div class="col"></div>
+                                    <div class="bg-primary border border-light rounded p-2 w-75">
+                                        <p class="text-right">{{reply.post}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        {% elif reply.client_replier %}
+                            <div class="my-2">
+                                <p class="my-0"><small>{{reply.created_at}}</small></p>
+                                <p class="my-0"><small>{{reply.client_replier.alias}} said: </small></p>
+                                <div class="bg-dark border border-light rounded my-2 p-2 w-75">
+                                    <p class="ml-3">{{reply.post}}</p>    
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                <form class="my-3" action="/new_reply/{{message.id}}" method="POST">
+                    {% csrf_token %}
+                    <textarea class="form-control" name="text" id="text" cols="30" rows="4"></textarea>
+                    <input type="hidden" name="message_id" value='{{message.id}}'>
+                    <button type="submit" class='btn btn-success my-3'>Send Reply</button>
+                </form>
+                </div>
             {% endfor %}
-
-        <form action="/new_reply/{{message.id}}" method="POST">
-            {% csrf_token %}
-            <input type="text" name="text" id="text">
-            <input type="hidden" name="message_id" value='{{message.id}}'>
-            <button type="submit" class='btn btn-info'>Reply</button>
-        </form>
-        <hr>
-        {% endfor %}
+        </div>
     </div>
 
 </body>
