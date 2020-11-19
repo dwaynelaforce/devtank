@@ -22,19 +22,20 @@
         <div class="d-flex align-items-center">
             <a href="/"><img id="logo" src="{% static 'img/devtank_logo_4.png' %}" alt="devtank home page"></a>
             <p class="mt-3">
-                <a class="text-white" href="/dashboard">Home</a><span>  |  </span>
-                <a class="text-white" href="/about">About Us</a><span>  |  </span>
-                <a class="text-white" href="/search_categories">Search By Category</a>
+                <a class="text-white" href="/dashboard">Home</a><span> | </span>
+                <a class="text-white" href="/about">About Us</a><span> | </span>
+                <a class="text-white" href="/search">Search By Category</a>
             </p>
         </div>
-        
+
         <p class="mt-3">
-            <a class="text-white" href="/search">Search</a><span>  |  </span>
-            <a class="text-white" href="/message/{{user.id}}/inbox">Messages</a><span>  |  </span>
+            <a class="text-white" href="/message/{{user.id}}/inbox">Messages</a><span> | </span>
+            {% if request.session.role == 'dev' %}
             <a class="text-white" href="/add_project">Upload Project</a>
+            {% endif %}
         </p>
         <p class="mt-3">
-            <a class="text-white" href="">{{user.alias}}</a><span>  |  </span>
+            <a class="text-white" href="">{{user.alias}}</a><span> | </span>
             <a class="text-white" href="/logout">Log Out</a>
         </p>
     </div>
@@ -43,6 +44,7 @@
         <h3>Messages:</h3>
     </div>
     <div class="new">
+        {% if request.session.role == 'client' %}
         <form action="/new" method="POST">
             {% csrf_token %}
             <label for="new_chat">New Chat</label>
@@ -53,33 +55,40 @@
             </select>
             <input type="text" name="text" id="text">
             <input type="hidden" name="starter" value='{{user.id}}'>
-            
-            <button type="submit" class = 'btn btn-success'>Submit</button>
-            
+            <button type="submit" class='btn btn-success'>Submit</button>
         </form>
+        {% endif %}
     </div>
 
     <div class="current_chat">
         <!-- for sent in sent_messages -->
-            <!-- <p id="sender">sent.text</p> -->
-            <!-- for replys in sent.comments.all -->
-                <!-- <p id="reciver">replys.post</p> -->
-            <!-- endfor -->
+        <!-- <p id="sender">sent.text</p> -->
+        <!-- for replys in sent.comments.all -->
+        <!-- <p id="reciver">replys.post</p> -->
+        <!-- endfor -->
         <!-- endfor -->
     </div>
 
-    <div class="all_chats" style = 'margin-left: 100px;'>
+    <div class="all_chats" style='margin-left: 100px;'>
         {% for message in sent_messages.all %}
         <p>{{message.starter.alias}} said: {{message.text}}</p>
-        
+        {% for reply in replies.all %}
+            {% if request.session.role == 'dev' %}
+                <p>{{reply.dev_replier.alias}} said: {{reply.post}}</p>
+            {% endif %}
+            {% if request.session.role == 'client' %}
+                <p>{{reply.client_replier.alias}} said: {{reply.post}}</p>
+            {% endif %}
+            
+        {% endfor %}
+
         <form action="/new_reply/{{message.id}}" method="POST">
             {% csrf_token %}
             <input type="text" name="text" id="text">
-            <input type="hidden" name="user_id" value='{{user.id}}'>
             <input type="hidden" name="message_id" value='{{message.id}}'>
-            <button type="submit" class = 'btn btn-info'>Reply</button>
+            <button type="submit" class='btn btn-info'>Reply</button>
         </form>
-
+        <hr>
         {% endfor %}
     </div>
 

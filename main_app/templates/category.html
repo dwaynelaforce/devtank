@@ -23,12 +23,11 @@
             <p class="mt-3">
                 <a class="text-white" href="/dashboard">Home</a><span> | </span>
                 <a class="text-white" href="/about">About Us</a><span> | </span>
-                <a class="text-white" href="/search_categories">Search By Category</a>
+                <a class="text-white" href="/search">Search By Category</a>
             </p>
         </div>
 
         <p class="mt-3">
-            <a class="text-white" href="/search">Search</a><span> | </span>
             <a class="text-white" href="/message/{{user.id}}/inbox">Messages</a><span> | </span>
             <a class="text-white" href="/add_project">Upload Project</a>
         </p>
@@ -38,7 +37,7 @@
         </p>
     </div>
     <div class="main">
-        <form action="/category_search_button/category" method="POST">
+        <form action="/category" method="POST">
             {% csrf_token %}
             <label for="category">Filter by Category:</label>
             <select name="category" id="category">

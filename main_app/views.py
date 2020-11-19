@@ -157,20 +157,28 @@ def edit_project(request, proj_id):
 #     ----->Messageing Area<-----
 
 def inbox(request, user_id):
-
     if request.session['role'] == 'client':
         user = Client.objects.get(id=request.session['client_id'])
+        context = {
+            'user': user,
+            "all_devs": Dev.objects.all(),
+            'all_clients' : Client.objects.all(),
+            'sent_messages': Chat.objects.filter(starter = user),
+            'replies' : Reply.objects.filter(client_replier = request.session['client_id']),
+        }
+        return render(request, 'inbox.html', context)
+        
     elif request.session['role'] == 'dev':
         user = Dev.objects.get(id=request.session['dev_id'])
-
-    context = {
-        'user': user,
-        "all_devs": Dev.objects.all(),
-        'sent_messages': Chat.objects.all()
-    }
+        context = {
+            'user': user,
+            "all_devs": Dev.objects.all(),
+            'all_clients' : Client.objects.all(),
+            'sent_messages': Chat.objects.filter(messager = user),
+            'replies' : Reply.objects.filter(dev_replier = request.session['dev_id']),
+        }
+        return render(request, 'inbox.html', context)
     
-    return render(request, 'inbox.html', context)
-
 def new_chat(request):
     form = request.POST
     
@@ -189,18 +197,20 @@ def new_chat(request):
     return redirect(f'/message/{user.id}/inbox')
 
 def new_reply(request, message_id):
-    if request.session['role'] == 'client':
-        user = Client.objects.get(id=request.session['client_id'])
-    elif request.session['role'] == 'dev':
-        user = Dev.objects.get(id=request.session['dev_id'])
-        
     form = request.POST
     
-    Reply.objects.create(
-        post = form['text'],
-        replier = user,
-        convo = form['message_id'],
-    )
+    if request.session['role'] == 'client':
+        Reply.objects.create(
+            post = form['text'],
+            client_replier = Client.objects.get(id=request.session['client_id']),
+            convo = Chat.objects.get(id = form['message_id']),
+        )
+    elif request.session['role'] == 'dev':
+        Reply.objects.create(
+            post = form['text'],
+            dev_replier = Dev.objects.get(id=request.session['dev_id']),
+            convo = Chat.objects.get(id = form['message_id']),
+        )
     return redirect(f'/message/{user.id}/inbox')
 
 #       ----->End Message Area<-----
@@ -276,6 +286,12 @@ def edit_profile(request, user_id):
         user_logged.save()
     return redirect(f'/devs/{user_id}')
 
+
+def category(request):
+    value = request.POST['category']
+    return redirect(f'/category_search_button/{value}')
+
+
 def business(request):
     context = {
         'all_projects': Project.objects.filter(category = 'Business')
@@ -327,16 +343,6 @@ def productivity(request):
 
 
 
-#   ----->search categories<-----
-# def search_categories(request):
-
-#     cat = Project.objects.filter(category = request.POST['category'])
-#     context = {
-#         'categories': cat,
-#     }
-#     return render(request, 'category.html', context)
-
-
 ######### INFO YOU NEED TO KNOW ABOUT LOGGED IN USER ############
 
 
@@ -363,8 +369,3 @@ def search(request):
     }
     return render(request, "category.html", context)
 
-# def category_search_button(request, category):
-#     context = {
-#         "category" : Project.objects.filter(category = 'category').all()
-#     }
-#     return render(request, "category.html", context)

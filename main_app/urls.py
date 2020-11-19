@@ -25,6 +25,7 @@ urlpatterns = [
     path('edit_profile/<int:user_id>', views.edit_profile),
     # path('search_categories', views.search_categories),
     #path('get_categorys', views.get_categorys),
+    path('category', views.category),
     path("category_search_button/Business", views.business),
     path("category_search_button/Education", views.education),
     path("category_search_button/Entertainment", views.entertainment),
