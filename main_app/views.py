@@ -156,45 +156,49 @@ def edit_project(request, proj_id):
 
 #     ----->Messageing Area<-----
 
-def inbox(request, user_id):
+def inbox(request):
     if request.session['role'] == 'client':
-        user = Client.objects.get(id=request.session['client_id'])
+        client = Client.objects.get(id = request.session['client_id'])
+        chat = Chat.objects.filter(starter = client)
         context = {
-            'user': user,
+            'user': client,
             "all_devs": Dev.objects.all(),
             'all_clients' : Client.objects.all(),
-            'sent_messages': Chat.objects.filter(starter = user),
-            'replies' : Reply.objects.filter(client_replier = request.session['client_id']),
+            'sent_messages': chat,
+            
         }
         return render(request, 'inbox.html', context)
         
     elif request.session['role'] == 'dev':
-        user = Dev.objects.get(id=request.session['dev_id'])
+        dev = Dev.objects.get(id=request.session['dev_id'])
+        chat = Chat.objects.filter(messager = dev)
         context = {
-            'user': user,
+            'user': dev,
             "all_devs": Dev.objects.all(),
             'all_clients' : Client.objects.all(),
-            'sent_messages': Chat.objects.filter(messager = user),
-            'replies' : Reply.objects.filter(dev_replier = request.session['dev_id']),
+            'sent_messages': chat,
         }
         return render(request, 'inbox.html', context)
     
+
 def new_chat(request):
     form = request.POST
     
     if request.session['role'] == 'dev':
         user = Dev.objects.get(id=request.session['dev_id'])
+        
         return redirect(f'/message/{user.id}/inbox')
         
     elif request.session['role'] == 'client':
         user = Client.objects.get(id=request.session['client_id'])
-        
+        dev = Dev.objects.get(id = form['dev_chat'])
         this_chat = Chat.objects.create(
             text = form['text'],
-            starter = user,
+            starter = user,   
         )
+        this_chat.messager.add(dev)
     
-    return redirect(f'/message/{user.id}/inbox')
+    return redirect('/inbox')
 
 def new_reply(request, message_id):
     form = request.POST
@@ -211,7 +215,7 @@ def new_reply(request, message_id):
             dev_replier = Dev.objects.get(id=request.session['dev_id']),
             convo = Chat.objects.get(id = form['message_id']),
         )
-    return redirect(f'/message/{user.id}/inbox')
+    return redirect('/inbox')
 
 #       ----->End Message Area<-----
 
