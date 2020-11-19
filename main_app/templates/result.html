@@ -24,7 +24,7 @@
             <p class="mt-3">
                 <a class="text-white" href="/dashboard">Home</a><span>  |  </span>
                 <a class="text-white" href="/about">About Us</a><span>  |  </span>
-                <a class="text-white" href="/search_categories">Search By Category</a>
+                <a class="text-white" href="/search">Search By Category</a>
             </p>
         </div>
         
@@ -39,10 +39,15 @@
         </p>
     </div>
     <div class="results">
-        {% for project in all_projects %}
-        <h3><a href="/projects/{{project.id}}">{{project.name}}</a></h3>
-        <p>{{project.about}}</p>
-        {% endfor %}
+        {% if all_projects %}
+            {% for project in all_projects %}
+            <h3><a href="/projects/{{project.id}}">{{project.name}}</a></h3>
+            <p>{{project.about}}</p>
+            <p>{{project.creator.alias}}</a></p>
+            {% endfor %}
+        {% else %}
+            <p>Sorry, no projects under this category have been uploaded! :(</p>
+        {% endif %}
     </div>
 
 </body>

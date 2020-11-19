@@ -8,7 +8,7 @@ from django.views.generic import ListView
 from itertools import chain
 
 def index(request):
-    #project = Project.objects.get(len(watchers))
+    # project = Project.objects.get(len(watchers))
     all_projects = Project.objects.all()
     top_5 = []
     for project in all_projects:
@@ -24,7 +24,6 @@ def index(request):
         "project_2": top_5[2],
         "project_3": top_5[3],
         "project_4": top_5[4]
-
     }
     return render(request, 'index.html', context)
 
@@ -277,15 +276,65 @@ def edit_profile(request, user_id):
         user_logged.save()
     return redirect(f'/devs/{user_id}')
 
-#   ----->search categorys<-----
-def search_categories(request):
-    if request.POST['category']:
-        return render(request, 'category.html')
-    cat = Projects.objects.filter(categorys = request.POST['category'])
+def business(request):
     context = {
-        'categories': cat,
+        'all_projects': Project.objects.filter(category = 'Business')
     }
-    return render(request, 'category.html', context)
+    return render(request, 'result.html', context)
+
+def education(request):
+    context = {
+        'all_projects': Project.objects.filter(category = 'Education')
+    }
+    return render(request, 'result.html', context)
+
+def entertainment(request):
+    context = {
+        'all_projects': Project.objects.filter(category = 'Entertainment')
+    }
+    return render(request, 'result.html', context)
+
+def finance(request):
+    context = {
+        'all_projects': Project.objects.filter(category = 'Finance')
+    }
+    return render(request, 'result.html', context)
+
+def fitness(request):
+    context = {
+        'all_projects': Project.objects.filter(category = 'Fitness')
+    }
+    return render(request, 'result.html', context)
+
+def games(request):
+    context = {
+        'all_projects': Project.objects.filter(category = 'Games')
+    }
+    return render(request, 'result.html', context)
+
+def music(request):
+    context = {
+        'all_projects': Project.objects.filter(category = 'Music')
+    }
+    return render(request, 'result.html', context)
+
+def productivity(request):
+    context = {
+        'all_projects': Project.objects.filter(category = 'Productivity')
+    }
+    return render(request, 'result.html', context)
+
+
+
+
+#   ----->search categories<-----
+# def search_categories(request):
+
+#     cat = Project.objects.filter(category = request.POST['category'])
+#     context = {
+#         'categories': cat,
+#     }
+#     return render(request, 'category.html', context)
 
 
 ######### INFO YOU NEED TO KNOW ABOUT LOGGED IN USER ############
@@ -308,9 +357,14 @@ def search_categories(request):
     # Client.objects.get(id=request.session['client_id'])
     # Dev.objects.get(id=request.session['dev_id])
 
-
-def category_search_button(request, category):
+def search(request):
     context = {
-        "category" : Project.objects.filter(category = category).all()
+        "category" : Project.objects.filter(category = 'category').all()
     }
     return render(request, "category.html", context)
+
+# def category_search_button(request, category):
+#     context = {
+#         "category" : Project.objects.filter(category = 'category').all()
+#     }
+#     return render(request, "category.html", context)
