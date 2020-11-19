@@ -50,18 +50,18 @@
     </div>
     <!-- end navbar -->
     <div id="main" class="px-5">
+        <h3 class="text-center">Dev: {{dev.alias}}</h3>
         <div class="row my-4" id="about_me">
             <div class="col-2">
-                <h3>Dev: {{dev.alias}}</h3>
                 <img class='rounded-circle' style="height: 100px; width: 100px; box-shadow: 3px 3px 10px lightblue;"
                     src="/media/default.png" alt="profile pic" id="profile_pic"><br>
                     {% if request.session.role == 'dev' %}
                         {% if request.session.dev_id == dev.id%}
-                            <a href="/edit_profile_page/{{request.session.dev_id}}">Edit Profile</a>
+                            <a href="/edit_profile_page/{{request.session.dev_id}}"><button class="btn btn-dark">Edit Profile</button></a>
                         {% endif %}
                     {% endif %}
             </div>
-            <div class="col-7">
+            <div class="col-8">
                 <h3>About me: </h3>
                 <p>{{dev.about}}</p>
             </div>
