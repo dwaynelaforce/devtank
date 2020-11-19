@@ -10,11 +10,23 @@ from itertools import chain
 
 def index(request):
     #project = Project.objects.get(len(watchers))
+    all_projects = Project.objects.all()
+    top_5 = []
+    for project in all_projects:
+        if len(top_5) < 6:
+            top_5.append(project)
+        else:
+            break
+    
     context = {
-        "all_projects": Project.objects.all(),
-        # 'top_projects': project[:5] 
+        "all_projects": all_projects,
+        "project_0": top_5[0],
+        "project_0": top_5[0],
+        "project_0": top_5[0],
+        "project_0": top_5[0],
+        "project_0": top_5[0]
+
     }
-        
     return render(request, 'index.html', context)
 
 def dashboard(request):
