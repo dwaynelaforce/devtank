@@ -16,7 +16,7 @@
         display: flex;
         justify-content: space-between;
     }
-</style>
+</style>1
 
 <body>
     <div class="d-flex align-items-center justify-content-between px-4 bg-primary" id="navbar">
@@ -58,7 +58,7 @@
             <div class="col-2" id="my_projects">
                 <h4>Project List</h4>
                 {% for project in dev.developed_by.all %}
-                    <p class="bg-light p-2 my-2 rounded-lg">
+                    <p class="bg-light p-2 my-2 rounded-lg text-center">
                         <a class = "text-info" href="/projects/{{project.id}}">{{project.name}}</a>
                     </p>
                 {% endfor %}
@@ -71,17 +71,16 @@
                         <div class="row">
                             <div class="col project_description">
                                 <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore perferendis magni minima laborum aliquam earum reprehenderit blanditiis, quas aut enim placeat molestiae, ipsam perspiciatis quo. Vero saepe similique aliquid. Nobis?</p>
+                                <div class="col d-flex flex-wrap justify-content-between project_pictures">
+                                    <!-- for img in project images -->
+                                        <img src="{% static 'images/example1.png' %}" alt="project_pic" class="m-2">
+                                        <img src="{% static 'images/example1.png' %}" alt="project_pic" class="m-2">
+                                        <img src="{% static 'images/example1.png' %}" alt="project_pic" class="m-2">
+                                        <img src="{% static 'images/example1.png' %}" alt="project_pic" class="m-2">
+                                    <!-- endfor -->
+                                </div>
                             </div>
-                            <div class="col flex-wrap project_pictures">
-                                <!-- for img in project images -->
-                                    <img src="#" alt="project_pic" class="m-2">
-                                    <img src="#" alt="project_pic" class="m-2">
-                                    <img src="#" alt="project_pic" class="m-2">
-                                    <img src="#" alt="project_pic" class="m-2">
-                                    <img src="#" alt="project_pic" class="m-2">
-                                    <img src="#" alt="project_pic" class="m-2">
-                                <!-- endfor -->
-                            </div>
+
                         </div>
                     </div>
                 <!-- endfor -->

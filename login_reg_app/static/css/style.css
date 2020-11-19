@@ -7,7 +7,25 @@
 #logo {
     width: 250px;
 }
+
+#about_logo{
+    max-width: 50%
+}
+
+#about_logo img{
+    max-width: 75%;
+    max-height: 100%;
+}
+
 body {
     background-image: linear-gradient(to right, #58626b, #343A40) !important;
     color: white !important;
+}
+
+.project_pictures img{
+    max-width: 22%;
+}
+
+#about_info{
+    max-height: 60%;
 }
