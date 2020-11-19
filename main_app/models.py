@@ -3,30 +3,30 @@ from django.conf import settings
 from login_reg_app.models import Client, Dev
 from django.db.models import Q
 
-class PostQuerySet(models.QuerySet):
-    def search(self, query=None):
-        qs = self.get_queryset()
-        if query is not None:
-            or_lookup = (
-                Q(name__icontains=query) |
-                Q(pitch__icontains=query) |
-                Q(about__icontains=query) |
-                Q(price__icontains=query) |
-                Q(creator__icontains=query) |
-                Q(category__icontains=query)
-                )
-            qs = qs.filter(or_lookup).distinct()
-            print(or_lookup)
-        return qs
+# class PostQuerySet(models.QuerySet):
+#     def search(self, query=None):
+#         qs = self.get_queryset()
+#         if query is not None:
+#             or_lookup = (
+#                 Q(name__icontains=query) |
+#                 Q(pitch__icontains=query) |
+#                 Q(about__icontains=query) |
+#                 Q(price__icontains=query) |
+#                 Q(creator__icontains=query) |
+#                 Q(category__icontains=query)
+#                 )
+#             qs = qs.filter(or_lookup).distinct()
+#             print(or_lookup)
+#         return qs
 
-class PostManager(models.Manager):
-    def get_queryset(self):
-        print(1)
-        return PostQuerySet(self.model, using=self._db)
+# class PostManager(models.Manager):
+#     def get_queryset(self):
+#         print(1)
+#         return PostQuerySet(self.model, using=self._db)
 
-    def search(self, query=None):
-        print(2)
-        return self.get_queryset().search(query=query)
+#     def search(self, query=None):
+#         print(2)
+#         return self.get_queryset().search(query=query)
 
 class Project(models.Model):
     name = models.CharField(max_length=20)
@@ -39,26 +39,26 @@ class Project(models.Model):
     watchers = models.ManyToManyField(Client, related_name="watched_by")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    objects = PostManager()
+    # objects = PostManager()
 
 class Project_Image(models.Model):
     image = models.ImageField(upload_to='media/project_pics')
     project_pic = models.ForeignKey(Project, related_name="project_pics", on_delete=models.CASCADE)
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
-# class Chat(models.Model):
-#     text = models.CharField(max_length=500)
-#     starter = models.ForeignKey(Client, related_name="started_by", on_delete = models.CASCADE)
-#     messager = models.ManyToManyField(Dev, related_name="messaged_by")
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     updated_at = models.DateTimeField(auto_now=True)
+class Chat(models.Model):
+    text = models.CharField(max_length=500)
+    starter = models.ForeignKey(Client, related_name="started_by", on_delete = models.CASCADE)
+    messager = models.ManyToManyField(Dev, related_name="messaged_by")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     
-# class Reply(models.Model):
-#     post = models.CharField(max_length=255)
-#     replier = models.ForeignKey(Dev, related_name="replies", null = True, on_delete = models.CASCADE)
-#     convo = models.ForeignKey(Chat, related_name="comments", on_delete = models.CASCADE)
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     updated_at = models.DateTimeField(auto_now=True)
+class Reply(models.Model):
+    post = models.CharField(max_length=255)
+    replier = models.ForeignKey(Dev, related_name="replies", null = True, on_delete = models.CASCADE)
+    convo = models.ForeignKey(Chat, related_name="comments", on_delete = models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 # class Project_Messages(models.Model):
 #     post = models.CharField(max_length=300)

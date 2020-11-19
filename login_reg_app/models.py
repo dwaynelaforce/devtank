@@ -5,19 +5,19 @@ from django.conf import settings
 
 # Create your models here.
 
-class PostQuerySet(models.QuerySet):
-    def search(self, query=None):
-        qs = self.get_queryset()
-        if query is not None:
-            or_lookup = (
-                Q(fname__icontains=query) |
-                Q(lname__icontains=query) |
-                Q(alias__icontains=query) |
-                Q(about__icontains=query)
-                )
-            qs = qs.filter(or_lookup).distinct()
-            print(3)
-        return qs
+# class PostQuerySet(models.QuerySet):
+#     def search(self, query=None):
+#         qs = self.get_queryset()
+#         if query is not None:
+#             or_lookup = (
+#                 Q(fname__icontains=query) |
+#                 Q(lname__icontains=query) |
+#                 Q(alias__icontains=query) |
+#                 Q(about__icontains=query)
+#                 )
+#             qs = qs.filter(or_lookup).distinct()
+#             print(3)
+#         return qs
 
 class UserManager(models.Manager):
     def registration_validator(self, postdata):
@@ -34,14 +34,14 @@ class UserManager(models.Manager):
         if postdata['password'] != postdata['confirm_password']:
             errors['confirm_password'] = "Passwords do not match"
         return errors
-    def search(self, query=None):
-        def get_queryset(self):
-            print(4)
-            return PostQuerySet(self.model, using=self._db)
+    # def search(self, query=None):
+    #     def get_queryset(self):
+    #         print(4)
+    #         return PostQuerySet(self.model, using=self._db)
 
-    def search(self, query=None):
-        print(5)
-        return self.get_queryset().search(query=query)
+    # def search(self, query=None):
+    #     print(5)
+    #     return self.get_queryset().search(query=query)
 
 class Client(models.Model):
     fname = models.CharField(max_length=50)

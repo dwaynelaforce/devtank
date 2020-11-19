@@ -146,20 +146,20 @@ def edit_project(request, proj_id):
 
 #     ----->Messageing Area<-----
 
-# def inbox(request, user_id):
+def inbox(request, user_id):
 
-#     if request.session['role'] == 'client':
-#         user = Client.objects.get(id=request.session['client_id'])
-#     elif request.session['role'] == 'dev':
-#         user = Dev.objects.get(id=request.session['dev_id'])
+    if request.session['role'] == 'client':
+        user = Client.objects.get(id=request.session['client_id'])
+    elif request.session['role'] == 'dev':
+        user = Dev.objects.get(id=request.session['dev_id'])
 
 
-#     context = {
-#         'user': user,
-#         "all_devs": Dev.objects.all(),
-#         'sent_messages': Chat.objects.all()
-#     }
-#     return render(request, 'inbox.html', context)
+    context = {
+        'user': user,
+        "all_devs": Dev.objects.all(),
+        'sent_messages': Chat.objects.all()
+    }
+    return render(request, 'inbox.html', context)
 
 # def new_chat(request):
 #     form = request.POST
@@ -187,37 +187,37 @@ def edit_project(request, proj_id):
 
 #       ----->search bar<-----
 
-class SearchBar(ListView):
-    template_name = 'search_view.html'
-    paginate_by = 20
-    count= 0
-    print(9)
+# class SearchBar(ListView):
+#     template_name = 'search_view.html'
+#     paginate_by = 20
+#     count= 0
+#     print(9)
 
-    def get_context_data(self, *args, **kwargs):
-        context = super().get_context_data(*args, **kwargs)
-        context['count'] = self.count or 0
-        context['query'] = self.request.GET.get('q')
-        print(8)
-        return context
+#     def get_context_data(self, *args, **kwargs):
+#         context = super().get_context_data(*args, **kwargs)
+#         context['count'] = self.count or 0
+#         context['query'] = self.request.GET.get('q')
+#         print(8)
+#         return context
 
-    def get_queryset(self):
-        request = self.request
-        query = request.GET.get('q', None)
-        if query is not None:
-            print(7)
-            dev_results = Dev.objects.search(query)
-            project_results = Project.objects.search(query)
-            queryset_chain = chain(
-                dev_results,
-                project_results,
-                )
-            qs = sorted(queryset_chain,
-                key=lambda instance: instance.pk,
-                reverse=True)
-            self.count = len(qs)
-            return qs
-            print(6)
-        return Dev.objects.none()
+#     def get_queryset(self):
+#         request = self.request
+#         query = request.GET.get('q', None)
+#         if query is not None:
+#             print(7)
+#             dev_results = Dev.objects.search(query)
+#             project_results = Project.objects.search(query)
+#             queryset_chain = chain(
+#                 dev_results,
+#                 project_results,
+#                 )
+#             qs = sorted(queryset_chain,
+#                 key=lambda instance: instance.pk,
+#                 reverse=True)
+#             self.count = len(qs)
+#             return qs
+#             print(6)
+#         return Dev.objects.none()
 
 def about(request):
     return render(request, 'about.html')
@@ -248,8 +248,8 @@ def logout(request):
     # Dev.objects.get(id=request.session['dev_id])
 
 
-# def category_search_button(request, category):
-#     context = {
-#       "category" : Project.objects.filter(category = category).all()
-#     }
-#     return render(request, "category.html", context)
+def category_search_button(request, category):
+    context = {
+        "category" : Project.objects.filter(category = category).all()
+    }
+    return render(request, "category.html", context)
