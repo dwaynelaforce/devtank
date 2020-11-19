@@ -2,72 +2,89 @@
 <html lang="en">
 
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project</title>
+    <title>Profile Page</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
         integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 </head>
+<style>
+    .main {
+        display: flex !important;
+        justify-content: space-around !important;
+    }
+</style>
 
 <body>
-    <div class="container">
-        <nav>
-            <h3>DevTank</h3>
-            <p>Welcome, {{user.alias}} </p>
-            <div class="header">
-                <a href="/dashboard">Dashboard</a>
-                <a href="/inbox/{{user.id}}">Inbox</a>
-                <a href="/logout">Logout</a>
-            </div>
-            <hr>
-
-        </nav>
-        <div class='dev_info'>
-            <div class="col-6">
-                <div class="row">
-                    <a href="/devs/{{project.creator.id}}"><img src="/media/default.png" alt="Developer"
-                            class='rounded-circle float-left' style='height:100px; width: 100px;'></a>
-                    <a href="/devs/{{project.creator.id}}"><p>{{project.creator.alias}}</p></a>
-                </div>
-                <p style='margin-left: 50px;'>{{project.name}}</p>
-                <div class="row">
-                    <a href="#"><button class='btn btn-outline-warning'>{{project.category}}</button></a>
-                </div>
-                <div class="row">
-                    <p>Created At: {{project.uploaded_on}}</p>
-                    <p>Uploaded On: Nov. 17th, 2020</p>
-                </div>
-                <div class='row' style='border: 1px groove darkgrey; border-radius: 3px 3px 3px;'>
-                    <p>Total Watchers: {{project.watchers.all|length}}</p>
-                    <p>Total Views: {{views}}</p>
-                </div>
-            </div>
-            <a href="/add_to_watchlist/{{project.id}}"><button class='btn btn-outline-success'>Add to
-                    Watchlist</button></a>
-            <a href="/remove_from_watchlist/{{project.id}}"><button class='btn btn-outline-danger'>Remove from
-                    Watchlist</button></a>
-        </div>
-        <div class='d-flex justify-content-center'>
-            <div class="col-8">
-                <div class='row'>
-                    {% for project in this_project %}
-                    <img src="/media/default.png" alt="project images" class='rounded'>
-                    {% endfor %}
-                </div>
-                <div class="row">
-                    <p>Project description</p>
-                </div>
-                <div class="row">
-                    <h5>${{project.price}}</h5>
-                </div>
-            </div>
+    <div class="d-flex align-items-center justify-content-between px-4 bg-primary" id="navbar">
+        <div class="d-flex align-items-center">
+            <a href="/"><img id="logo" src="{% static 'img/devtank_logo_4.png' %}" alt="devtank home page"></a>
+            <p class="mt-3">
+                <a class="text-white" href="/dashboard">Home</a><span> | </span>
+                <a class="text-white" href="/about">About Us</a><span> | </span>
+                <a class="text-white" href="/search_categories">Search By Category</a>
+            </p>
         </div>
 
-        <div class="proj_comments">
-
+        <p class="mt-3">
+            <a class="text-white" href="/search">Search</a><span> | </span>
+            <a class="text-white" href="/message/{{user.id}}/inbox">Messages</a><span> | </span>
+            <a class="text-white" href="/add_project">Upload Project</a>
+        </p>
+        <p class="mt-3">
+            <a class="text-white" href="">{{user.alias}}</a><span> | </span>
+            <a class="text-white" href="/logout">Log Out</a>
+        </p>
+    </div>
+    <div class='dev_info'>
+        <div class="col-6">
+            <div class="row">
+                <a href="/devs/{{project.creator.id}}"><img src="/media/default.png" alt="Developer"
+                        class='rounded-circle float-left' style='height:100px; width: 100px;'></a>
+                <a href="/devs/{{project.creator.id}}">
+                    <p>{{project.creator.alias}}</p>
+                </a>
+            </div>
+            <p style='margin-left: 50px;'>{{project.name}}</p>
+            <div class="row">
+                <a href="#"><button class='btn btn-outline-warning'>{{project.category}}</button></a>
+            </div>
+            <div class="row">
+                <p>Created At: {{project.uploaded_on}}</p>
+                <p>Uploaded On: Nov. 17th, 2020</p>
+            </div>
+            <div class='row' style='border: 1px groove darkgrey; border-radius: 3px 3px 3px;'>
+                <p>Total Watchers: {{project.watchers.all|length}}</p>
+                <p>Total Views: {{views}}</p>
+            </div>
         </div>
+        <a href="/add_to_watchlist/{{project.id}}"><button class='btn btn-outline-success'>Add to
+                Watchlist</button></a>
+        <a href="/remove_from_watchlist/{{project.id}}"><button class='btn btn-outline-danger'>Remove from
+                Watchlist</button></a>
+    </div>
+    <div class='d-flex justify-content-center'>
+        <div class="col-8">
+            <div class='row'>
+                {% for project in this_project %}
+                <img src="/media/default.png" alt="project images" class='rounded'>
+                {% endfor %}
+            </div>
+            <div class="row">
+                <p>Project description</p>
+            </div>
+            <div class="row">
+                <h5>${{project.price}}</h5>
+            </div>
+        </div>
+    </div>
+
+    <div class="proj_comments">
 
     </div>
+
 </body>
 
 </html>

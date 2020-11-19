@@ -28,13 +28,13 @@
             </p>
         </div>
         <p class="mt-3">
-            <a class="text-white" href="#">Search</a><span> | </span>
-            <a class="text-white" href="#">Messages</a><span> | </span>
-            <a class="text-white" href="#">Upload Project</a><span> | </span>
+            <a class="text-white" href="/search">Search</a><span> | </span>
+            <a class="text-white" href="/message/{{user.id}}/inbox">Messages</a><span> | </span>
+            <a class="text-white" href="/add_project">Upload Project</a><span> | </span>
             <a class="text-white" href="/edit_profile_page/{{dev.id}}" value="{{dev.id}}">Edit Profile</a>
         </p>
         <p class="mt-3">
-            <a class="text-white" href="#">My Account</a><span> | </span>
+            <a class="text-white" href="#">{{user.alias}}</a><span> | </span>
             <a class="text-white" href="/logout">Log Out</a>
         </p>
     </div>
