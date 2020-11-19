@@ -191,20 +191,23 @@ class SearchBar(ListView):
     template_name = 'search_view.html'
     paginate_by = 20
     count= 0
+    print(9)
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context['count'] = self.count or 0
         context['query'] = self.request.GET.get('q')
+        print(8)
         return context
 
     def get_queryset(self):
         request = self.request
         query = request.GET.get('q', None)
         if query is not None:
+            print(7)
             dev_results = Dev.objects.search(query)
-            project_results = Projects.objects.search(query)
-            queryset_chian = chain(
+            project_results = Project.objects.search(query)
+            queryset_chain = chain(
                 dev_results,
                 project_results,
                 )
@@ -212,8 +215,8 @@ class SearchBar(ListView):
                 key=lambda instance: instance.pk,
                 reverse=True)
             self.count = len(qs)
-            print(qs)
             return qs
+            print(6)
         return Dev.objects.none()
 
 def about(request):

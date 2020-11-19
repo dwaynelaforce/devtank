@@ -16,6 +16,7 @@ class PostQuerySet(models.QuerySet):
                 Q(about__icontains=query)
                 )
             qs = qs.filter(or_lookup).distinct()
+            print(3)
         return qs
 
 class UserManager(models.Manager):
@@ -35,9 +36,11 @@ class UserManager(models.Manager):
         return errors
     def search(self, query=None):
         def get_queryset(self):
+            print(4)
             return PostQuerySet(self.model, using=self._db)
 
     def search(self, query=None):
+        print(5)
         return self.get_queryset().search(query=query)
 
 class Client(models.Model):

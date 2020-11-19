@@ -16,13 +16,16 @@ class PostQuerySet(models.QuerySet):
                 Q(category__icontains=query)
                 )
             qs = qs.filter(or_lookup).distinct()
+            print(or_lookup)
         return qs
 
 class PostManager(models.Manager):
     def get_queryset(self):
+        print(1)
         return PostQuerySet(self.model, using=self._db)
 
     def search(self, query=None):
+        print(2)
         return self.get_queryset().search(query=query)
 
 class Project(models.Model):
@@ -31,7 +34,7 @@ class Project(models.Model):
     about = models.CharField(max_length=500)
     category = models.CharField(max_length=25)
     price = models.DecimalField(max_digits=5,decimal_places=2)
-    times_viewed = models.IntegerField()
+    times_viewed = models.IntegerField(default=0)
     creator = models.ForeignKey(Dev, related_name="developed_by", on_delete = models.CASCADE)
     watchers = models.ManyToManyField(Client, related_name="watched_by")
     created_at = models.DateTimeField(auto_now_add=True)
@@ -52,7 +55,7 @@ class Project_Image(models.Model):
     
 # class Reply(models.Model):
 #     post = models.CharField(max_length=255)
-#     replier = models.ForeignKey(User, related_name="replies", null = True, on_delete = models.CASCADE)
+#     replier = models.ForeignKey(Dev, related_name="replies", null = True, on_delete = models.CASCADE)
 #     convo = models.ForeignKey(Chat, related_name="comments", on_delete = models.CASCADE)
 #     created_at = models.DateTimeField(auto_now_add=True)
 #     updated_at = models.DateTimeField(auto_now=True)
