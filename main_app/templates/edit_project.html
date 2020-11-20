@@ -64,9 +64,9 @@
             <label for="project_name">Project Name:</label>
             <input id="project_name" class="form-control my-2" type="text" name="proj_name" value="{{ project.name }}">
             <label for="pitch">Quick Pitch:</label>
-            <input id="pitch" class="form-control my-2" type="text" name="pitch" value="{{ proj.pitch }}">
+            <input id="pitch" class="form-control my-2" type="text" name="pitch" value="{{ project.pitch }}">
             <label for="desc">Project Description:</label>
-            <textarea id="desc" class="form-control" name="desc" cols="30" rows="4">{{ proj.desc }}</textarea>
+            <textarea id="desc" class="form-control" name="desc" cols="30" rows="4">{{ project.about }}</textarea>
             <div class="row my-2">
                 <div class="col">
                     <label for="category">Category</label><br>
@@ -83,7 +83,7 @@
                 </div>
                 <div class="col">
                     <label for="price">Price</label><br>
-                    <input class="form-control" type="number" name="price" id="price" value="{{ proj.price }}">
+                    <input class="form-control" type="number" name="price" id="price" value="{{ project.price }}">
                 </div>
             </div>
             <button class="btn btn-outline-success my-2">Apply Changes</button>

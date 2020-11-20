@@ -65,12 +65,20 @@ def show_dev(request, dev_id):
     total_watchers = 0
     for project in this_dev.developed_by.all():
         total_watchers += len(project.watchers.all())
-    
-    context = {
-        'dev' : Dev.objects.get(id = dev_id),
+
+    if request.session['role'] == 'client':
+        user = Client.objects.get(id=request.session['client_id'])
+        context = {
+        'client' : user,
         'total_watchers': total_watchers,
-        'client' : Client.objects.get(id = request.session['client_id'])
+        }
+    else:
+        user = Dev.objects.get(id=request.session['dev_id'])
+        context = {
+        'dev' : user,
+        'total_watchers': total_watchers,
     }
+    
     return render(request, 'dev_profile.html', context)
 
 def show_project(request, project_id):
