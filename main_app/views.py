@@ -371,14 +371,17 @@ def productivity(request):
 ########## About and Logout ##########
 
 def about(request):
-    if request.session['role'] == 'client':
-        user = Client.objects.get(id=request.session['client_id'])
-    elif request.session['role'] == 'dev':
-        user = Dev.objects.get(id=request.session['dev_id'])
-    context = {
-        'user': user,
-    }
-    return render(request, 'about.html', context)
+    if 'role' in request.session:
+        if request.session['role'] == 'client':
+            user = Client.objects.get(id=request.session['client_id'])
+        elif request.session['role'] == 'dev':
+            user = Dev.objects.get(id=request.session['dev_id'])
+        context = {
+            'user': user,
+        }
+        return render(request, 'about.html', context)
+    else:
+        return render(request, 'about.html')
 
 def logout(request):
     request.session.flush()
