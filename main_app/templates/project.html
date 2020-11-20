@@ -67,7 +67,7 @@
             </div>
             <div>
                 {% for img in project.images.all%}
-                    <img src = "{{img.image.url}}" alt="This is a badass pic of a badass project" style = 'width: 500px;'>
+                    <a href="/projects/{{project.id}}"><img src = "{{img.image.url}}" alt="This is a badass pic of a badass project" style = 'width: 500px;'></a>
                 {% endfor %}
             </div>
             <p style='margin-left: 50px;'>{{project.name}}</p>
