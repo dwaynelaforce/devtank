@@ -280,16 +280,19 @@ def edit_profile(request, user_id):
 ########## Search section ##########
 
 def search(request):
-    if request.session['role'] == 'client':
-        user = Client.objects.get(id=request.session['client_id'])
-    elif request.session['role'] == 'dev':
-        user = Dev.objects.get(id=request.session['dev_id'])
-
-    context = {
-        "category" : Project.objects.filter(category = 'category').all(),
-        'user' : user,
-    }
-    return render(request, "category.html", context)
+    if 'role' in request.session:
+        if request.session['role'] == 'client':
+            user = Client.objects.get(id=request.session['client_id'])
+        elif request.session['role'] == 'dev':
+            user = Dev.objects.get(id=request.session['dev_id'])
+        context = {
+            "category" : Project.objects.filter(category = 'category').all(),
+            'user' : user,
+            }
+        return render(request, "category.html", context)
+        
+    else:
+        return render(request, "category.html")
 
 def category(request):
     value = request.POST['category']

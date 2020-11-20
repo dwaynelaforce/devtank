@@ -73,7 +73,9 @@
             <div class="col">
                 <div class="row">
                     <div class="col">
+                        
                         <img class="profile_pic rounded-circle" src="/media/{{project.creator.profile_pic}}" alt="profile pic">
+                        
                         <p class="my-3 ml-3"><a href="/devs/{{project.creator.id}}">{{project.creator.alias}}</a></p>
                     </div>
                     <div class="col-7">
@@ -94,17 +96,24 @@
             </div>
             <div class="col">
                 {% for img in project.images.all%}
+                {% if 'role' in request.session %}
                     <a href="/projects/{{project.id}}">
                         <img src = "{{img.image.url}}" alt="project_pic" class="project_page_img w-100 rounded">
                     </a>
+                    {% else %}
+                    <img src = "{{img.image.url}}" alt="project_pic" class="project_page_img w-100 rounded">
+                    {% endif %}
                 {% endfor %}
             </div>
         </div>
         <div id="buttons_project" class="row my-5">
             <div class="col">
                 {% if request.session.role == 'client' %}
-                    <a href="/add_to_watchlist/{{project.id}}"><button class='btn btn-outline-success'>Add to Watchlist</button></a>
-                    <a href="/remove_from_watchlist/{{project.id}}"><button class='btn btn-outline-danger'>Remove from Watchlist</button></a>
+                    {% if project.watched_by is not project %}
+                        <a href="/add_to_watchlist/{{project.id}}"><button class='btn btn-outline-success'>Add to Watchlist</button></a>
+                    {% else %}
+                        <a href="/remove_from_watchlist/{{project.id}}"><button class='btn btn-outline-danger'>Remove from Watchlist</button></a>
+                    {% endif %}
                 {% endif %}
             </div>
             <div class="col">

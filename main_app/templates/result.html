@@ -71,20 +71,37 @@
         </select>
         <button>Submit</button>
     </form>
-    <div class="results">
-        {% if all_projects %}
-            {% for project in all_projects %}
-            <h3><a href="/projects/{{project.id}}">{{project.name}}</a></h3>
-            {% for img in project.images.all%}
-                <a href="/projects/{{project.id}}"><img src = "{{img.image.url}}" alt="" style = 'width: 500px;'></a>
-            {% endfor %}
-            <p>{{project.about}}</p>
-            <p>{{project.creator.alias}}</a></p>
-            {% endfor %}
-        {% else %}
-            <p>Sorry, no projects under this category have been uploaded! :(</p>
-        {% endif %}
-    </div>
+    {% if request.session.role == 'dev' or request.session.role == 'client' %}
+        <div class="results">
+            {% if all_projects %}
+                {% for project in all_projects %}
+                <h3><a href="/projects/{{project.id}}">{{project.name}}</a></h3>
+                {% for img in project.images.all%}
+                    <a href="/projects/{{project.id}}"><img src = "{{img.image.url}}" alt="" style = 'width: 500px;'></a>
+                {% endfor %}
+                <p>{{project.about}}</p>
+                <p>{{project.creator.alias}}</a></p>
+                {% endfor %}
+            {% else %}
+                <p>Sorry, no projects under this category have been uploaded! :(</p>
+            {% endif %}
+        </div>
+    {% else %}
+        <div class="results">
+            {% if all_projects %}
+                {% for project in all_projects %}
+                <h3>{{project.name}}</h3>
+                {% for img in project.images.all%}
+                    <img src = "{{img.image.url}}" alt="" style = 'width: 500px;'>
+                {% endfor %}
+                <p>{{project.about}}</p>
+                <p>{{project.creator.alias}}</a></p>
+                {% endfor %}
+            {% else %}
+                <p>Sorry, no projects under this category have been uploaded! :(</p>
+            {% endif %}
+        </div>
+    {% endif %}
     
 
 </body>
