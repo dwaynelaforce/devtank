@@ -56,41 +56,37 @@
         {% endif %}
     </div>
     <!-- end navbar -->
-    <div class="main">
-        <h1>Edit Your Project</h1>
+    <div id="main_edit_project" class="col w-50 my-3 mx-auto">
+        <h1 class="text-center">Edit Your Project</h1>
         <form action="/edit_project/{{project.id}}" method="post" >
             {% csrf_token %}
-            <div>
-                <label for="proj_name">Project Name</label>
-                <input type="text" name="proj_name" value="{{ proj.name }}">
+            <input class="form-control my-2" type="hidden" value={{project.id}} name="project_id">
+            <label for="project_name">Project Name:</label>
+            <input id="project_name" class="form-control my-2" type="text" name="proj_name" value="{{ proj.name }}">
+            <label for="pitch">Quick Pitch:</label>
+            <input id="pitch" class="form-control my-2" type="text" name="pitch" value="{{ proj.pitch }}">
+            <label for="desc">Project Description:</label>
+            <textarea id="desc" class="form-control" name="desc" cols="30" rows="4">{{ proj.desc }}</textarea>
+            <div class="row my-2">
+                <div class="col">
+                    <label for="category">Category</label><br>
+                    <select class="form-control" name="category" id="proj_category">
+                        <option value="Business">Business</option>
+                        <option value="Education">Education</option>
+                        <option value="Entertainment">Entertainment</option>
+                        <option value="Fitness">Fitness</option>
+                        <option value="Finance">Finance</option>
+                        <option value="Games">Games</option>
+                        <option value="Music">Music</option>
+                        <option value="Productivity">Productivity</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <label for="price">Price</label><br>
+                    <input class="form-control" type="number" name="price" id="price" value="{{ proj.price }}">
+                </div>
             </div>
-            <div>
-                <label for="quick_pitch">Quick Pitch</label>
-                <input type="text" name="pitch" value="{{ proj.pitch }}">
-            </div>
-            <div>
-                <label for="desc">Description</label>
-                <input type="text" name="desc" value="{{ proj.desc }}">
-            </div>
-            <div>
-                <label for="category">Category</label>
-                <select name="category" id="proj_category">
-                    <option value="Business">Business</option>
-                    <option value="Education">Education</option>
-                    <option value="Entertainment">Entertainment</option>
-                    <option value="Fitness">Fitness</option>
-                    <option value="Finance">Finance</option>
-                    <option value="Games">Games</option>
-                    <option value="Music">Music</option>
-                    <option value="Productivity">Productivity</option>
-                </select>
-            </div>
-            <div>
-                <label for="price">Price</label>
-                <input type="number" name="price" id="price" value="{{ proj.price }}">
-            </div>
-            
-            <button class = 'btn btn-outline-success ml-2 mt-2'>Submit Edit</button>
+            <button class="btn btn-outline-success my-2">Apply Changes</button>
         </form>
     </div>
 </body>
