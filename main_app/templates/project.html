@@ -93,6 +93,13 @@
                     <p>Project description:</p>
                     <p>{{project.about}}</p>
                 </div>
+                {% if request.session.role == 'dev' %}
+                {% if user.id == project.creator.id %}
+                    <a href="/delete_project/{{project.id}}"><button class="btn btn-danger">Delete My
+                            Project</button></a>
+                    <a href="/edit_project_page/{{project.id}}"><button class = 'btn btn-warning'>Edit Project</button></a>
+                    {% endif %}
+                    {% endif %}
             </div>
             <div class="col">
                 {% for img in project.images.all%}
@@ -109,12 +116,15 @@
         <div id="buttons_project" class="row my-5">
             <div class="col">
                 {% if request.session.role == 'client' %}
-                    {% if project.watched_by is not project %}
-                        <a href="/add_to_watchlist/{{project.id}}"><button class='btn btn-outline-success'>Add to Watchlist</button></a>
-                    {% else %}
-                        <a href="/remove_from_watchlist/{{project.id}}"><button class='btn btn-outline-danger'>Remove from Watchlist</button></a>
+                    {% if user not in project.watchers.all %}
+                    <a href="/add_to_watchlist/{{project.id}}"><button class="btn btn-success">Add to
+                            Watchlist</button></a>
                     {% endif %}
-                {% endif %}
+                    {% if user in project.watchers.all %}
+                    <a href="/remove_from_watchlist/{{project.id}}"><button class="btn btn-danger">Remove from
+                            Watchlist</button></a>
+                    {% endif %}
+                    {% endif %}
             </div>
             <div class="col">
                 

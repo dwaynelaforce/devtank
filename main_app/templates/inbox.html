@@ -87,7 +87,7 @@
 
         <div id="all_chats">
             {% for message in sent_messages.all %}
-            <div class="bg-transparent m-4 p-3 border border-light rounded">
+            <div class="bg-transparent m-4 p-3 border border-light rounded" id='{{message.id}}'>
                 <div class="my-2">
                     <p class="my-0"><small>{{message.created_at}}</small></p>
                     <p class="my-0"><small>{{message.starter.alias}} said:</small></p>
@@ -130,23 +130,18 @@
     <script>
         {% for message in sent_messages.all %}
         $(document).ready(function () {
-            $('form').submit(function (e) {
-                e.preventDefault()
-                $.ajax({
-                    url: '/inbox/',
-                    method: 'post',
-                    data: $(this).serialize(),
-                    success: function (serverResponse) {
-                    }
+            // $('#{{message.starter.alias}}').click(function () {
+            //     $('#all_chats').show();
+            // });
+            // $('#all_chats').click(function () {
+            //     $('#{{message')
+            // })
+            $("#{{message.starter.alias}}").click(function () {
+                $("#{{message.id}}").slideToggle("slow", function () {
                 })
-                // $('#{{message.starter.alias}}').click(function () {
-                //     $('#all_chats').show();
-                // });
-                // $('#all_chats').click(function () {
-                //     $('')
-                // })
-            });
-            {% endfor %}
+            })
+        });
+        {% endfor %}
     </script>
 </body>
 
