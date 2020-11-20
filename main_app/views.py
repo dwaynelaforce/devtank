@@ -54,8 +54,15 @@ def dashboard(request):
         return render(request, 'dashboard.html', context)
 
 def show_dev(request, dev_id):
+    this_dev = Dev.objects.get(id = dev_id)
+    total_watchers = 0
+    for project in this_dev.developed_by.all():
+        total_watchers += len(project.watchers.all())
+    
+    
     context = {
-        'dev' : Dev.objects.get(id = dev_id)
+        'dev' : Dev.objects.get(id = dev_id),
+        'total_watchers': total_watchers
     }
     return render(request, 'dev_profile.html', context)
 
