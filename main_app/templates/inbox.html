@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
         integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"copy></script>
+
 </head>
 <style>
     .main {
@@ -56,6 +58,12 @@
         {% endif %}
     </div>
     <!-- end navbar -->
+
+    <div class="message">
+        {% for message in sent_messages.all %}
+        <p id={{message.starter.alias}}>{{ message.starter.alias }}</p>
+        {% endfor %}
+    </div>
 
     <div class="w-50 mx-auto" id="main_inbox">
         <h3>Inbox ({{user.alias}})</h3>
@@ -119,7 +127,19 @@
             {% endfor %}
         </div>
     </div>
-
+    <script>
+        {% for message in sent_messages.all %}
+            $(document).ready(function(){
+                $('#{{message.starter.alias}}').click(function(){
+                    $('#all_chats').show();
+                });
+                $('#all_chats').click(function(){
+                    $('')
+                })
+            });
+        {% endfor %}
+    </script>
 </body>
+
 
 </html>
