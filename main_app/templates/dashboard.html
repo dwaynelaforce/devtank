@@ -91,6 +91,7 @@
                     {% if user.id == project.creator.id %}
                     <a href="/delete_project/{{project.id}}"><button class="btn btn-danger">Delete My
                             Project</button></a>
+                    <a href="/edit_project_page/{{project.id}}"><button class = 'btn btn-warning'>Edit Project</button></a>
                     {% endif %}
                     {% endif %}
                     {% if request.session.role == 'client' %}

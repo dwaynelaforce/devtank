@@ -131,8 +131,6 @@ def upload_proj_img(request,project_id):
     }
     return render(request, 'project_image.html', context)
 
-######### Add project Image ##########
-
 def add_project_img(request, project_id):
     project = Project.objects.get(id = project_id)
     pic = Project_Image.objects.create(
@@ -159,9 +157,20 @@ def delete_project(request, project_id):
     proj.delete()
     return redirect('/dashboard')
 
-def edit_project(request, proj_id):
+def edit_project_page(request, project_id):
+    if request.session['role'] == 'client':
+        user = Client.objects.get(id=request.session['client_id'])
+    elif request.session['role'] == 'dev':
+        user = Dev.objects.get(id=request.session['dev_id'])
+    context = {
+        'project' : Project.objects.get(id = project_id),
+        'user' : user
+    }
+    return render(request, 'edit_project.html', context)
+
+def edit_project(request, project_id):
     form = request.POST
-    proj = Project.objects.get(id=proj_id)
+    proj = Project.objects.get(id=project_id)
     proj.name = form['proj_name']
     proj.pitch = form['pitch']
     proj.about = form['desc']
@@ -169,9 +178,6 @@ def edit_project(request, proj_id):
     proj.price = form['price']
     proj.save()
     return redirect('/dashboard')
-
-
-
 
 def inbox(request):
     if request.session['role'] == 'client':
