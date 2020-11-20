@@ -129,22 +129,12 @@
     </div>
     <script>
         {% for message in sent_messages.all %}
-            {% if request.session.role == 'dev' %}
         $(document).ready(function () {
             $("#{{message.starter.alias}}").click(function () {
                 $("#{{message.id}}").slideToggle("slow", function () {
                 })
-            }):
+            })
         });
-
-        {% else %}
-            $(document).ready(function () {
-            $("#{{message.messaged_by.alias}}").click(function () {
-                $("#{{message.id}}").slideToggle("slow", function () {
-                })
-            }):
-        });
-            {% endif %}
         {% endfor %}
     </script>
 </body>
