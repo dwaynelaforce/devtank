@@ -91,10 +91,10 @@
                     <div class="col p-2">
                         <h5><a href="/projects/{{project.id}}">{{project.name}}</a></h5>
                         <p>{{ project.pitch }}</p>
-                        <h6>By: <a href="/devs/{{project.creator.id}}">{{project.creator.alias}}</a></h6>
+                        <h6>By: <a class = 'text-white' href="/devs/{{project.creator.id}}">{{project.creator.alias}}</a></h6>
                         <p>Watchers: {{project.watchers.all | length}}</p>
                         {% if request.session.role == 'dev' %}
-                        {% if dev.id == project.creator.id %}
+                        {% if request.session.dev_id == project.creator.id %}
                         <a href="/delete_project/{{project.id}}"><button class="btn btn-danger">Delete My
                                 Project</button></a>
                         <a href="/edit_project_page/{{project.id}}"><button class='btn btn-warning'>Edit
