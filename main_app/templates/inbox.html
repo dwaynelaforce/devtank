@@ -50,7 +50,7 @@
             <a class="text-white" href="/inbox">Messages</a>
         </p>
         <p class="mt-3">
-            {{client.alias}}<a class="text-white" href="/logout">Log Out</a>
+            {{user.alias}}<span> | </span><a class="text-white" href="/logout">Log Out</a>
         </p>
         {% endif %}
         {% else %}
@@ -129,18 +129,22 @@
     </div>
     <script>
         {% for message in sent_messages.all %}
+            {% if request.session.role == 'dev' %}
         $(document).ready(function () {
-            // $('#{{message.starter.alias}}').click(function () {
-            //     $('#all_chats').show();
-            // });
-            // $('#all_chats').click(function () {
-            //     $('#{{message')
-            // })
             $("#{{message.starter.alias}}").click(function () {
                 $("#{{message.id}}").slideToggle("slow", function () {
                 })
-            })
+            }):
         });
+
+        {% else %}
+            $(document).ready(function () {
+            $("#{{message.messaged_by.alias}}").click(function () {
+                $("#{{message.id}}").slideToggle("slow", function () {
+                })
+            }):
+        });
+            {% endif %}
         {% endfor %}
     </script>
 </body>
