@@ -55,11 +55,11 @@
         {% endif %}
     </div>
     <!-- end navbar -->
-    <div class="main">
+    <div id="main_category" class="col w-75 mx-auto my-3">
+        <h3 class="my-3">Filter projects by category</h3>
         <form action="/category" method="POST">
             {% csrf_token %}
-            <label for="category">Filter by Category:</label>
-            <select name="category" id="category">
+            <select name="category" id="category" class="form-control my-3">
                 <option value="Business">Business</option>
                 <option value="Education">Education</option>
                 <option value="Entertainment">Entertainment</option>
@@ -69,19 +69,8 @@
                 <option value="Music">Music</option>
                 <option value="Productivity">Productivity</option>
             </select>
-            <button>Submit</button>
+            <button class="btn btn-primary">Submit</button>
         </form>
-
-        {% for project in categories %}
-        <div>
-            <h2>{{ project.name }}</h2>
-            <p>{{ project.creator }}</p>
-            
-            <p>{{ project.pitch }}</p>
-            <p>{{ project.price }}</p>
-        </div>
-        {% endfor %}
-
     </div>
 </body>
 

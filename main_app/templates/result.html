@@ -56,35 +56,66 @@
         {% endif %}
     </div>
     <!-- end navbar -->
-    <form action="/category" method="POST">
-        {% csrf_token %}
-        <label for="category">Filter by Category:</label>
-        <select name="category" id="category">
-            <option value="Business">Business</option>
-            <option value="Education">Education</option>
-            <option value="Entertainment">Entertainment</option>
-            <option value="Fitness">Fitness</option>
-            <option value="Finance">Finance</option>
-            <option value="Games">Games</option>
-            <option value="Music">Music</option>
-            <option value="Productivity">Productivity</option>
-        </select>
-        <button>Submit</button>
-    </form>
-    <div class="results">
-        {% if all_projects %}
-            {% for project in all_projects %}
-            <h3><a href="/projects/{{project.id}}">{{project.name}}</a></h3>
-            {% for img in project.images.all%}
-                <a href="/projects/{{project.id}}"><img src = "{{img.image.url}}" alt="" style = 'width: 500px;'></a>
-            {% endfor %}
-            <p>{{project.about}}</p>
-            <p>{{project.creator.alias}}</a></p>
-            {% endfor %}
-        {% else %}
-            <p>Sorry, no projects under this category have been uploaded! :(</p>
-        {% endif %}
+    <div id="main_category" class="col w-75 mx-auto my-3">
+        <div>
+            <h3 class="my-3">Filter projects by category</h3>
+            <form action="/category" method="POST">
+                {% csrf_token %}
+                <select name="category" id="category" class="form-control my-3">
+                    <option value="Business">Business</option>
+                    <option value="Education">Education</option>
+                    <option value="Entertainment">Entertainment</option>
+                    <option value="Fitness">Fitness</option>
+                    <option value="Finance">Finance</option>
+                    <option value="Games">Games</option>
+                    <option value="Music">Music</option>
+                    <option value="Productivity">Productivity</option>
+                </select>
+                <button class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+        <div class="results">
+            {% if all_projects %}
+                {% for project in all_projects %}
+                    <div class="row my-3 mx-0 bg-transparent border border-light rounded" style="max-height: 500px;">
+                        <div class="col p-2">
+                            <h5><a href="/projects/{{project.id}}">{{project.name}}</a></h5>
+                            <p>{{ project.pitch }}</p>
+                            <h6>By: <a href="/devs/{{project.creator.id}}">{{project.creator.alias}}</a></h6>
+                            <p>Watchers: {{project.watchers.all | length}}</p>
+                            {% if request.session.role == 'dev' %}
+                                {% if user.id == project.creator.id %}
+                                    <a href="/delete_project/{{project.id}}"><button class="btn btn-danger">Delete My
+                                            Project</button></a>
+                                    <a href="/edit_project_page/{{project.id}}"><button class = 'btn btn-warning'>Edit Project</button></a>
+                                {% endif %}
+                            {% endif %}
+                            {% if request.session.role == 'client' %}
+                                {% if user not in project.watchers.all %}
+                                    <a href="/add_to_watchlist/{{project.id}}"><button class="btn btn-success">Add to Watchlist</button></a>
+                                {% endif %}
+                                {% if user in project.watchers.all %}
+                                    <a href="/remove_from_watchlist/{{project.id}}"><button class="btn btn-danger">Remove from Watchlist</button></a>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                        <div class="col p-2 d-flex flex-wrap">
+                            {% for img in project.images.all %}
+                                <a href="/projects/{{project.id}}"><img class="project_img" src="{{ img.image.url }}" alt="Some Project Pic" style="max-width: 100%; max-height: 100%;"></a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>Sorry, no projects under this category have been uploaded! :(</p>
+            {% endif %}
+        </div>
+    
+    
+    
+    
     </div>
+
     
 
 </body>
