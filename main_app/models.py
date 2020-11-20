@@ -3,6 +3,20 @@ from django.conf import settings
 from login_reg_app.models import Client, Dev
 from django.db.models import Q
 
+class PostManager(models.Manager):
+    def project_validator(self, postData):
+        errors = {}
+        if len(postData['proj_name']) < 2:
+            errors['proj_name'] = 'Project Name must be longer than 2 characters'
+        if len(postData['quick_pitch']) < 10:
+            errors['quick_pitch'] = 'Pitch must be longer than 10 characters'
+        if len(postData['desc']) < 10:
+            errors['desc'] = 'Description must be longer than 10 characters'
+        # if len(postData['category']) < 2:
+        #     errors['category'] = 'Project Name must be longer than 2 characters'
+        if int(postData['price']) < 1:
+            errors['price'] = 'Price must be at least $1'
+
 
 class Project(models.Model):
     name = models.CharField(max_length=20)
@@ -15,7 +29,7 @@ class Project(models.Model):
     watchers = models.ManyToManyField(Client, related_name="watched_by")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    # objects = PostManager()
+    objects = PostManager()
 
 class Project_Image(models.Model):
     image = models.ImageField()
