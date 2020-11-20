@@ -62,15 +62,15 @@
             {% csrf_token %}
             <div>
                 <label for="proj_name">Project Name</label>
-                <input type="text" name="proj_name" value="{{ proj.name }}">
+                <input type="text" name="proj_name" value="{{ project.name }}">
             </div>
             <div>
                 <label for="quick_pitch">Quick Pitch</label>
-                <input type="text" name="pitch" value="{{ proj.pitch }}">
+                <input type="text" name="pitch" value="{{ project.pitch }}">
             </div>
             <div>
                 <label for="desc">Description</label>
-                <input type="text" name="desc" value="{{ proj.desc }}">
+                <input type="text" name="desc" value="{{ project.desc }}">
             </div>
             <div>
                 <label for="category">Category</label>
@@ -87,7 +87,7 @@
             </div>
             <div>
                 <label for="price">Price</label>
-                <input type="number" name="price" id="price" value="{{ proj.price }}">
+                <input type="number" name="price" id="price" value="{{ project.price }}">
             </div>
             
             <button class = 'btn btn-outline-success ml-2 mt-2'>Submit Edit</button>

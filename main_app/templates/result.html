@@ -48,6 +48,7 @@
             <a class="text-white" href="/inbox">Messages</a>
         </p>
         <p class="mt-3">
+            {{user.alias}}<span> | </span>
             {{client.alias}}<a class="text-white" href="/logout">Log Out</a>
         </p>
         {% endif %}
@@ -141,11 +142,12 @@
                 <a href="/remove_from_watchlist/{{project.id}}"><button class="btn btn-danger">Remove from
                         Watchlist</button></a>
                 {% endif %}
+                {% endif %}
             </div>
             {% endfor %}
             {% else %}
             <p>Sorry, no projects under this category have been uploaded! :(</p>
-            {% endif %}
+            {% endif%}
         </div>
         {% endif %}
     </div>
