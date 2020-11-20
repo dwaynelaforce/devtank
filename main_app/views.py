@@ -8,7 +8,7 @@ from django.views.generic import ListView
 from itertools import chain
 
 def index(request):
-    # project = Project.objects.get(len(watchers))
+    project = Project.objects.get(len(watchers))
     all_projects = Project.objects.all()
     top_5 = []
     for project in all_projects:
