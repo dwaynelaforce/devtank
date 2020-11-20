@@ -68,7 +68,8 @@ def show_dev(request, dev_id):
     
     context = {
         'dev' : Dev.objects.get(id = dev_id),
-        'total_watchers': total_watchers
+        'total_watchers': total_watchers,
+        'client' : Client.objects.get(id = request.session['client_id'])
     }
     return render(request, 'dev_profile.html', context)
 
