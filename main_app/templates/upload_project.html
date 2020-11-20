@@ -40,7 +40,7 @@
                     <a class="text-white" href="/add_project">Upload Project</a>
                 </p>
                 <p class="mt-3">
-                    <a class="text-white" href="/devs/{{dev.id}}">{{dev.alias}}</a>
+                    <a class="text-white" href="/devs/{{dev.id}}">{{user.alias}}</a>
                     <span>  |  </span>
                     <a class="text-white" href="/logout">Log Out</a>
                 </p>
@@ -64,19 +64,19 @@
             {% csrf_token %}
             <div>
                 <label for="proj_name">Project Name</label>
-                <input type="text" name="proj_name">
+                <input type="text" name="proj_name" required>
             </div>
             <div>
                 <label for="quick_pitch">Quick Pitch</label>
-                <input type="text" name="quick_pitch">
+                <input type="text" name="quick_pitch" required>
             </div>
             <div>
                 <label for="desc">Description</label>
-                <input type="text" name="desc">
+                <input type="text" name="desc" required>
             </div>
             <div>
                 <label for="category">Category</label>
-                <select name="category" id="proj_category">
+                <select name="category" id="proj_category" required>
                     <option value="Business">Business</option>
                     <option value="Education">Education</option>
                     <option value="Entertainment">Entertainment</option>
@@ -89,7 +89,7 @@
             </div>
             <div>
                 <label for="price">Price</label>
-                <input type="number" name="price" id="price">
+                <input type="number" name="price" id="price" required>
             </div>
             <input type="hidden" value={{project.id}} name="project_id">
             <button class='btn btn-outline-success ml-2 mt-2'>Upload Project</button>

@@ -46,10 +46,16 @@ def dashboard(request):
     ######### Changed to else, try running code now #########    
     else:
         user = Dev.objects.get(id=request.session['dev_id'])
+
+        total_watchers = 0
+        for project in user.developed_by.all():
+            total_watchers += len(project.watchers.all())
+
         context = {
             'user': user,
             'my_projects': Project.objects.filter(creator=request.session['dev_id']),
-            "all_projects": Project.objects.all(),
+            "all_projects": Project.objects.all().order_by('-created_at'),
+            'total_watchers': total_watchers
         }
         return render(request, 'dashboard.html', context)
 
@@ -58,7 +64,6 @@ def show_dev(request, dev_id):
     total_watchers = 0
     for project in this_dev.developed_by.all():
         total_watchers += len(project.watchers.all())
-    
     
     context = {
         'dev' : Dev.objects.get(id = dev_id),
@@ -109,8 +114,14 @@ def create_project(request):
     return redirect(f'/upload_proj_img/{project_id}')
 
 def upload_proj_img(request,project_id):
+    if request.session['role'] == 'client':
+        user = Client.objects.get(id=request.session['client_id'])
+    elif request.session['role'] == 'dev':
+        user = Dev.objects.get(id=request.session['dev_id'])
+
     context = {
-        'project' : Project.objects.get(id = project_id)
+        'project' : Project.objects.get(id = project_id),
+        'user': user,
     }
     return render(request, 'project_image.html', context)
 
@@ -258,8 +269,14 @@ def edit_profile(request, user_id):
 ########## Search section ##########
 
 def search(request):
+    if request.session['role'] == 'client':
+        user = Client.objects.get(id=request.session['client_id'])
+    elif request.session['role'] == 'dev':
+        user = Dev.objects.get(id=request.session['dev_id'])
+
     context = {
-        "category" : Project.objects.filter(category = 'category').all()
+        "category" : Project.objects.filter(category = 'category').all(),
+        'user' : user,
     }
     return render(request, "category.html", context)
 
@@ -343,7 +360,14 @@ def productivity(request):
 ########## About and Logout ##########
 
 def about(request):
-    return render(request, 'about.html')
+    if request.session['role'] == 'client':
+        user = Client.objects.get(id=request.session['client_id'])
+    elif request.session['role'] == 'dev':
+        user = Dev.objects.get(id=request.session['dev_id'])
+    context = {
+        'user': user,
+    }
+    return render(request, 'about.html', context)
 
 def logout(request):
     request.session.flush()
