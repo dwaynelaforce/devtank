@@ -31,81 +31,99 @@
             </p>
         </div>
         {% if 'role' in request.session %}
-            {% if request.session.role == 'dev' %}
-                <p class="mt-3">
-                    <a class="text-white" href="/inbox">Messages</a>
-                    <span> | </span>
-                    <a class="text-white" href="/add_project">Upload Project</a>
-                </p>
-                <p class="mt-3">
-                    <a class="text-white" href="/devs/{{user.id}}">{{user.alias}}</a>
-                    <span> | </span>
-                    <a class="text-white" href="/logout">Log Out</a>
-                </p>
-            {% endif %}
-            {% if request.session.role == 'client' %}
-                <p class="mt-3">
-                    <a class="text-white" href="/inbox">Messages</a>
-                </p>
-                <p class="mt-3">
-                    {{client.alias}}<a class="text-white" href="/logout">Log Out</a>
-                </p>
-            {% endif %}
+        {% if request.session.role == 'dev' %}
+        <p class="mt-3">
+            <a class="text-white" href="/inbox">Messages</a>
+            <span> | </span>
+            <a class="text-white" href="/add_project">Upload Project</a>
+        </p>
+        <p class="mt-3">
+            <a class="text-white" href="/devs/{{user.id}}">{{user.alias}}</a>
+            <span> | </span>
+            <a class="text-white" href="/logout">Log Out</a>
+        </p>
+        {% endif %}
+        {% if request.session.role == 'client' %}
+        <p class="mt-3">
+            <a class="text-white" href="/inbox">Messages</a>
+        </p>
+        <p class="mt-3">
+            {{client.alias}}<a class="text-white" href="/logout">Log Out</a>
+        </p>
+        {% endif %}
         {% else %}
-            <a class="text-white" href="/login_reg">Log In</a>
+        <a class="text-white" href="/login_reg">Log In</a>
         {% endif %}
     </div>
     <!-- end navbar -->
     <div id="main_dashboard" class="row m-2 pt-3">
         {% if request.session.role == 'dev'  %}
-            <div id="devs_projects" class="col">
-                <h4 class="mb-4">My Projects</h4>
-                <ul class="list-unstyled">
-                    {% for project in my_projects.all %}
-                        <li class="my-3"><a href="/projects/{{project.id}}"><button class="btn btn-light text-primary">{{project.name}}</button></a></li>
-                    {% endfor %}
-                </ul>
-            </div>
+        <div id="devs_projects" class="col">
+            <h4 class="mb-4">My Projects</h4>
+            <ul class="list-unstyled">
+                {% for project in my_projects.all %}
+                <li class="my-3"><a href="/projects/{{project.id}}"><button
+                            class="btn btn-light text-primary w-100">{{project.name}}</button></a></li>
+                {% endfor %}
+            </ul>
+        </div>
         {% else %}
-            <div id="clients_watchlist" class="col">
-                <h4 class="mb-4">My Watchlist</h4>
-                <ul class="list-unstyled">
-                    {% for project in my_watchlists.all %}
-                        <li class="my-3"><a href="/projects/{{project.id}}"><button class="btn btn-light text-primary">{{project.name}}</button></a></li>
-                    {% endfor %}
-                </ul>
-            </div>
+        <div id="clients_watchlist" class="col">
+            <h4 class="mb-4">My Watchlist</h4>
+            <ul class="list-unstyled">
+                {% for project in my_watchlists.all %}
+                <li class="my-3"><a href="/projects/{{project.id}}"><button
+                            class="btn btn-light text-primary w-100">{{project.name}}</button></a></li>
+                {% endfor %}
+            </ul>
+        </div>
         {% endif %}
         <div id="all_projects" class="col-7">
             <h4 class="text-center mb-4">All Projects</h4>
             {% for project in all_projects %}
-                <div class="row my-3 bg-transparent border border-light rounded">
-                    <div class="col p-2">
-                        <h5><a href="/projects/{{project.id}}">{{project.name}}</a></h5>
-                        <p>{{ project.pitch }}</p>
-                        <h6>By: <a href="/devs/{{project.creator.id}}">{{project.creator.alias}}</a></h6>
-                        <p>Watchers: {{project.watchers.all | length}}</p>
-                        <a href="/delete_project/{{project.id}}"><button class="btn btn-danger">Delete My Project</button></a>    
-                    </div>
-                    <div class="col p-2 d-flex flex-wrap">
-                        {% for img in project.images.all %}
-                            <img class="project_img" src="{{ img.image.url }}" alt="Some Project Pic?" style="max-width: 200px;">
-                        {% endfor %}
-                    </div>
+            <div class="row my-3 bg-transparent border border-light rounded" style="max-height: 500px;">
+                <div class="col p-2">
+                    <h5><a href="/projects/{{project.id}}">{{project.name}}</a></h5>
+                    <p>{{ project.pitch }}</p>
+                    <h6>By: <a href="/devs/{{project.creator.id}}">{{project.creator.alias}}</a></h6>
+                    <p>Watchers: {{project.watchers.all | length}}</p>
+                    {% if request.session.role == 'dev' %}
+                    {% if user.id == project.creator.id %}
+                    <a href="/delete_project/{{project.id}}"><button class="btn btn-danger">Delete My
+                            Project</button></a>
+                    {% endif %}
+                    {% endif %}
+                    {% if request.session.role == 'client' %}
+                    {% if user not in project.watchers.all %}
+                    <a href="/add_to_watchlist/{{project.id}}"><button class="btn btn-success">Add to
+                            Watchlist</button></a>
+                    {% endif %}
+                    {% if user in project.watchers.all %}
+                    <a href="/remove_from_watchlist/{{project.id}}"><button class="btn btn-danger">Remove from
+                            Watchlist</button></a>
+                    {% endif %}
+                    {% endif %}
                 </div>
+                <div class="col p-2 d-flex flex-wrap">
+                    {% for img in project.images.all %}
+                    <img class="project_img" src="{{ img.image.url }}" alt="Some Project Pic"
+                        style="max-width: 100%; max-height: 100%;">
+                    {% endfor %}
+                </div>
+            </div>
             {% endfor %}
         </div>
         {% if request.session.role == 'dev'  %}
-            <div id="dev_stats" class="col">
-                <h5 class="mb-4">My Stats</h5>
-                <p>Total Projects: {{ my_projects | length }}</p>
-                <p>Total Watchers:</p>
-            </div>
+        <div id="dev_stats" class="col">
+            <h5 class="mb-4">My Stats</h5>
+            <p>Total Projects: {{ my_projects | length }}</p>
+            <p>Total Watchers:</p>
+        </div>
         {% else %}
-            <div id="client_stats" class="col">
-                <h5 class="mb-4">My Stats</h5>
-                <p>Watched Projects: {{ my_watchlists | length }}</p>
-            </div>
+        <div id="client_stats" class="col">
+            <h5 class="mb-4">My Stats</h5>
+            <p>Watched Projects: {{ my_watchlists | length }}</p>
+        </div>
         {% endif %}
     </div>
 </body>

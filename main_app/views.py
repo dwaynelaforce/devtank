@@ -17,13 +17,14 @@ def index(request):
         else:
             break
 
+
     context = {
         "all_projects": all_projects,
-        "project_0": top_5[0],
-        "project_1": top_5[1],
-        "project_2": top_5[2],
-        "project_3": top_5[3],
-        "project_4": top_5[4]
+        'project_0' : top_5[0],
+        'project_1' : top_5[1],
+        'project_2' : top_5[2],
+        'project_3' : top_5[3],
+        'project_4' : top_5[4],
     }
     return render(request, 'index.html', context)
 
@@ -145,14 +146,9 @@ def edit_project(request, proj_id):
     proj.save()
     return redirect('/dashboard')
 
-########## Add Dev Image ##########
-# def add_user_img(request):
-#   dev = Dev.objects.get(id = request.session['user_id'])
-#   pic = Dev.profile_pic.update(profile_pic = request.FILES['profile_pic'])
-#   return redirect('/back to profile)
-#
 
-#     ----->Messageing Area<-----
+
+########## Messaging Area ##########
 
 def inbox(request):
     if request.session['role'] == 'client':
@@ -215,50 +211,11 @@ def new_reply(request, message_id):
         )
     return redirect('/inbox')
 
-#       ----->End Message Area<-----
 
-#       ----->search bar<-----
 
-# class SearchBar(ListView):
-#     template_name = 'search_view.html'
-#     paginate_by = 20
-#     count= 0
-#     print(9)
+########## Edit profile ##########
 
-#     def get_context_data(self, *args, **kwargs):
-#         context = super().get_context_data(*args, **kwargs)
-#         context['count'] = self.count or 0
-#         context['query'] = self.request.GET.get('q')
-#         print(8)
-#         return context
 
-#     def get_queryset(self):
-#         request = self.request
-#         query = request.GET.get('q', None)
-#         if query is not None:
-#             print(7)
-#             dev_results = Dev.objects.search(query)
-#             project_results = Project.objects.search(query)
-#             queryset_chain = chain(
-#                 dev_results,
-#                 project_results,
-#                 )
-#             qs = sorted(queryset_chain,
-#                 key=lambda instance: instance.pk,
-#                 reverse=True)
-#             self.count = len(qs)
-#             return qs
-#             print(6)
-#         return Dev.objects.none()
-
-def about(request):
-    return render(request, 'about.html')
-
-def logout(request):
-    request.session.flush()
-    return redirect('/')
-
-#   ---->edit profile<-----
 def edit_profile_page(request, user_id):
     if request.session['role'] == 'client':
         user = Client.objects.get(id=request.session['client_id'])
@@ -285,9 +242,19 @@ def edit_profile(request, user_id):
         user_logged.alias = form['alias']
         user_logged.email = form['email']
         user_logged.about = form['about']
+        user_logged.profile_pic = request.FILES['image']
         user_logged.save()
     return redirect(f'/devs/{user_id}')
 
+
+
+########## Search section ##########
+
+def search(request):
+    context = {
+        "category" : Project.objects.filter(category = 'category').all()
+    }
+    return render(request, "category.html", context)
 
 def category(request):
     value = request.POST['category']
@@ -365,9 +332,12 @@ def productivity(request):
     # Client.objects.get(id=request.session['client_id'])
     # Dev.objects.get(id=request.session['dev_id])
 
-def search(request):
-    context = {
-        "category" : Project.objects.filter(category = 'category').all()
-    }
-    return render(request, "category.html", context)
 
+########## About and Logout ##########
+
+def about(request):
+    return render(request, 'about.html')
+
+def logout(request):
+    request.session.flush()
+    return redirect('/')

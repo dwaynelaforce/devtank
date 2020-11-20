@@ -58,12 +58,9 @@
     <!-- end navbar -->
 
     <div class="w-50 mx-auto" id="main_inbox">
-
         <h3>Inbox ({{user.alias}})</h3>
-
         {% if request.session.role == 'client' %}
             <div id="new_message_client">
-                
                 <form action="/new" method="POST">
                     {% csrf_token %}
                     <label for="new_chat">New Chat</label>

@@ -58,7 +58,7 @@
     <!-- end navbar -->
     <div id="main_edit_profile">
         <h3 class="text-center my-4">Edit my info:</h3>
-        <form class="w-75 my-4 mx-auto" action="/edit_profile/{{ user.id }}" method="post">
+        <form class="w-75 my-4 mx-auto" action="/edit_profile/{{ user.id }}" method="post" enctype='multipart/form-data'> 
             {% csrf_token %}
             <div class="form-group">
                 <label for="fname">First Name:</label>
@@ -77,8 +77,12 @@
                 <input class="form-control" type="email" name="email" value="{{ user.email }}" required>
             </div>
             <div class="form-group">
-                <label for="about">About</label>
+                <label for="about">About:</label>
                 <textarea class="form-control" name="about" id="about_area" cols="30" rows="10" required>{{ user.about }}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="image">Add Profile Picture:</label>
+                <input type="file" name='image'>
             </div>
             <button class="btn btn-outline-light">Submit</button>
         </form>
