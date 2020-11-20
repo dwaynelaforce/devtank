@@ -76,28 +76,43 @@
             <div class="col-2" id="my_projects">
                 <h4>Project List</h4>
                 {% for project in dev.developed_by.all %}
-                <p class="bg-light p-2 my-2 rounded-lg text-center">
-                    <a class="text-info" href="/projects/{{project.id}}">{{project.name}}</a>
-                </p>
+                    <p class="bg-light p-2 my-2 rounded-lg text-center">
+                        <a class="text-info" href="/projects/{{project.id}}">{{project.name}}</a>
+                    </p>
                 {% endfor %}
             </div>
-            <div class="col">
+            <div class="col-9">
                 <h4>Projects Feed</h4>
-                <div class="project_info bg-secondary rounded-lg p-3 my-3">
-                    {% for project in dev.developed_by.all %}
-                    <h5><a href="/projects/{{project.id}}">{{project.name}}</a></h5>
-                    <div class="row">
-                        <div class="col project_description">
-                            <p>{{project.about}}</p>
-                            <div class="col d-flex flex-wrap justify-content-between project_pictures">
-                                {% for img in project.images.all%}
-                                    <img src = "{{img.image.url}}" alt="This is a badass pic of a badass project" >
-                                {% endfor %}
-                            </div>
-                        </div>
+                {% for project in dev.developed_by.all %}
+                <div class="row my-3 bg-transparent border border-light rounded" style="max-height: 500px;">
+                    <div class="col p-2">
+                        <h5><a href="/projects/{{project.id}}">{{project.name}}</a></h5>
+                        <p>{{ project.pitch }}</p>
+                        <h6>By: <a href="/devs/{{project.creator.id}}">{{project.creator.alias}}</a></h6>
+                        <p>Watchers: {{project.watchers.all | length}}</p>
+                        {% if request.session.role == 'dev' %}
+                            {% if user.id == project.creator.id %}
+                                <a href="/delete_project/{{project.id}}"><button class="btn btn-danger">Delete My Project</button></a>
+                                <a href="/edit_project_page/{{project.id}}"><button class = 'btn btn-warning'>Edit Project</button></a>
+                            {% endif %}
+                        {% endif %}
+                        {% if request.session.role == 'client' %}
+                            {% if user not in project.watchers.all %}
+                                <a href="/add_to_watchlist/{{project.id}}"><button class="btn btn-success">Add to Watchlist</button></a>
+                            {% endif %}
+                            {% if user in project.watchers.all %}
+                                <a href="/remove_from_watchlist/{{project.id}}"><button class="btn btn-danger">Remove from Watchlist</button></a>
+                            {% endif %}
+                        {% endif %}
                     </div>
-                    {% endfor %}
+                    <div class="col p-2 d-flex flex-wrap">
+                        {% for img in project.images.all %}
+                        <a href="/projects/{{project.id}}"><img class="project_img" src="{{ img.image.url }}" alt="Some Project Pic"
+                            style="max-width: 100%; max-height: 100%;"></a>
+                        {% endfor %}
+                    </div>
                 </div>
+                {% endfor %}
             </div>
         </div>
     </div>
