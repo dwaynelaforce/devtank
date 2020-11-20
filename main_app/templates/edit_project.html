@@ -61,17 +61,17 @@
         <h1 class="text-center">Edit Your Project</h1>
         <form action="/edit_project/{{project.id}}" method="post" >
             {% csrf_token %}
-            <input class="form-control my-2" type="hidden" value={{project.id}} name="project_id">
+            <input class="form-control my-2" type="hidden" value={{project.id}} name="project_id" required>
             <label for="project_name">Project Name:</label>
-            <input id="project_name" class="form-control my-2" type="text" name="proj_name" value="{{ project.name }}">
+            <input id="project_name" class="form-control my-2" type="text" name="proj_name" value="{{ project.name }}" required>
             <label for="pitch">Quick Pitch:</label>
-            <input id="pitch" class="form-control my-2" type="text" name="pitch" value="{{ project.pitch }}">
+            <input id="pitch" class="form-control my-2" type="text" name="pitch" value="{{ project.pitch }}" required>
             <label for="desc">Project Description:</label>
-            <textarea id="desc" class="form-control" name="desc" cols="30" rows="4">{{ project.about }}</textarea>
+            <textarea id="desc" class="form-control" name="desc" cols="30" rows="4" required>{{ project.about }}</textarea>
             <div class="row my-2">
                 <div class="col">
                     <label for="category">Category</label><br>
-                    <select class="form-control" name="category" id="proj_category">
+                    <select class="form-control" name="category" id="proj_category" required>
                         <option value="Business">Business</option>
                         <option value="Education">Education</option>
                         <option value="Entertainment">Entertainment</option>
@@ -84,7 +84,7 @@
                 </div>
                 <div class="col">
                     <label for="price">Price</label><br>
-                    <input class="form-control" type="number" name="price" id="price" value="{{ project.price }}">
+                    <input class="form-control" type="number" name="price" id="price" value="{{ project.price }}" required>
                 </div>
             </div>
             <button class="btn btn-outline-success my-2">Apply Changes</button>

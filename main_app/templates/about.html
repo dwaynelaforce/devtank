@@ -62,7 +62,9 @@
                 <p>Are you a developer with multiple projects/apps or games just sitting on your hard drive taking up space? Do you love creating new things but get stuck with how to present them to the world? Then DevTank is the place for you!</p>
                 <p>Are you someone who is always on the eye for the next big thing in the tech world? Are you looking for additional projects/apps or games to add to your portfolio? Are you ready to launch your next venture but still in search for the perfect opportunity? Look no further than the top rated or newest projects added to DevTank!</p>
                 <br>
+                {% if 'role' not in request.session %}
                 <a href="/login_reg"><button class="btn btn-primary">Create free account</button></a>
+                {% endif %}
                 <br>
                 <div id="testimonials" class="my-3">
                     <h4>DevTank Testimonials</h4>

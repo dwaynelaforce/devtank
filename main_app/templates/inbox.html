@@ -131,6 +131,8 @@
                     <p class="my-0"><small>{{reply.created_at}}</small></p>
                     <p class="my-0"><small>{{reply.client_replier.alias}} said: </small></p>
                     <div class="bg-dark border border-light rounded my-2 p-2 w-75">
+                        <img class='rounded-circle m-1' style="height: 50px; width: 50px;"
+                    src="/media/media/default.png" alt="profile pic" id="profile_pic"><br>
                         <p class="ml-3">{{reply.post}}</p>
                     </div>
                 </div>
@@ -153,11 +155,11 @@
         $(document).ready(function () {
 
             $("#{{message.starter.alias}}").click(function () {
-                $("#{{message.id}}").slideToggle('slow', function () {
+                $("#{{message.id}}").slideToggle(400, function () {
                 })
             })
             $("#{{message.messager.first.alias}}").click(function () {
-                $("#{{message.id}}").slideToggle("slow", function () {
+                $("#{{message.id}}").slideToggle(400, function () {
                 })
             })
         });
