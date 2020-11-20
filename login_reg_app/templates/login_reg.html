@@ -31,24 +31,43 @@
                 <input class="form-control" type="email" name="email" placeholder="Email Address" required><br>
                 <input class="form-control" type="password" name="password" placeholder="Password" required><br>
                 <input class="form-control" type="password" name="confirm_password" placeholder="Confirm Password" required><br>
-                <select name="role" id="role-reg">
-                    <option value="dev">Dev</option>
-                    <option value="client">Client</option>
-                </select>
-                <button class="btn btn-primary">Register</button>
+                <p>Choose your role:</p>
+                <div class="row">
+                    
+                    <div class="col">
+                        <select name="role" id="role-reg" class="form-control">
+                            <option value="dev">Developer - I want to sell my projects</option>
+                            <option value="" disabled></option>
+                            <option value="client">Client - I want to buy projects</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-primary">Register</button>
+                    </div>
+                </div>
             </form>
         </div>
         <div class="col px-4 m-4">
             <h2>Login existing user</h2>
             <form action="/login_reg/login" method="post">
                 {% csrf_token %}
-                <select name="role" id="role_login">
-                    <option value="dev">Dev</option>
-                    <option value="client">Client</option>
-                </select>
                 <input class="form-control" type="email" name="email" placeholder="Email Address" required><br>
                 <input class="form-control" type="password" name="password" placeholder="Password" required><br>
-                <button class="btn btn-primary">Log In</button>
+                <p>Log in as:</p>
+                <div class="row">
+                    
+                    <div class="col">
+                        <select name="role" id="role_login" class="form-control">
+                            
+                            <option value="dev">Developer</option>
+                            <option value="" disabled></option>
+                            <option value="client">Client</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-primary">Log In</button>
+                    </div>
+                </div>
             </form>
             {% if messages %}
                 <ul style="color:red">
