@@ -107,6 +107,8 @@
                     <p class="my-0"><small>{{message.created_at}}</small></p>
                     <p class="my-0"><small>{{message.starter.alias}} said:</small></p>
                     <div class="bg-dark border border-light rounded mb-2 w-75 p-2">
+                        <img class='rounded-circle m-1' style="height: 50px; width: 50px;"
+                    src="/media/media/default.png" alt="profile pic" id="profile_pic"><br>
                         <p class="ml-3">{{message.text}}</p>
                     </div>
                 </div>
@@ -118,6 +120,8 @@
                     <div class="row mb-2 mr-1">
                         <div class="col"></div>
                         <div class="bg-primary border border-light rounded p-2 w-75">
+                            <img class='rounded-circle float-right m-1' style="height: 50px; width: 50px;"
+                    src="/media/{{reply.dev_replier.profile_pic}}" alt="profile pic" id="profile_pic"><br>
                             <p class="text-right">{{reply.post}}</p>
                         </div>
                     </div>
@@ -147,11 +151,7 @@
     <script>
         {% for message in sent_messages.all %}
         $(document).ready(function () {
-            
-            $("#{{all_chats}}").ready(function () {
-                $("#{{message.id}}").hide('fast', function () {
-                })
-            })
+
             $("#{{message.starter.alias}}").click(function () {
                 $("#{{message.id}}").slideToggle('slow', function () {
                 })
@@ -161,6 +161,7 @@
                 })
             })
         });
+
         {% endfor %}
     </script>
 </body>
