@@ -58,49 +58,43 @@
         {% endif %}
     </div>
     <!-- end navbar -->
-    <div class="main">
-        <h1>Upload Your Project</h1>
+    <div id="main_proj_upload" class="col w-50 mx-auto">
+        <h1 class="text-center m-3">Upload Your Project</h1>
         <form action="/create_project" method="post">
             {% csrf_token %}
-            <div>
-                <label for="proj_name">Project Name</label>
-                <input type="text" name="proj_name" required>
-            </div>
-            <div>
-                <label for="quick_pitch">Quick Pitch</label>
-                <input type="text" name="quick_pitch" required>
-            </div>
-            <div>
-                <label for="desc">Description</label>
-                <input type="text" name="desc" required>
-            </div>
-            <div>
-                <label for="category">Category</label>
-                <select name="category" id="proj_category" required>
-                    <option value="Business">Business</option>
-                    <option value="Education">Education</option>
-                    <option value="Entertainment">Entertainment</option>
-                    <option value="Fitness">Fitness</option>
-                    <option value="Finance">Finance</option>
-                    <option value="Games">Games</option>
-                    <option value="Music">Music</option>
-                    <option value="Productivity">Productivity</option>
-                </select>
-            </div>
-            <div>
-                <label for="price">Price</label>
-                <input type="number" name="price" id="price" required>
-            </div>
             <input type="hidden" value={{project.id}} name="project_id">
-            <button class='btn btn-outline-success ml-2 mt-2'>Upload Project</button>
+            <input class="form-control my-2" type="text" name="proj_name" placeholder="Project Name" required>
+            <input class="form-control my-2" type="text" name="quick_pitch" placeholder="Quick Pitch" required>
+            <textarea class="form-control my-2" name="desc" cols="30" rows="5" placeholder="Project Description" required></textarea>
+            <div class="row">
+                <div class="col">
+                    <label for="proj_category">Category</label><br>
+                    <select class="form-control my-2" name="category" id="proj_category" required>
+                        <option value="Business">Business</option>
+                        <option value="Education">Education</option>
+                        <option value="Entertainment">Entertainment</option>
+                        <option value="Fitness">Fitness</option>
+                        <option value="Finance">Finance</option>
+                        <option value="Games">Games</option>
+                        <option value="Music">Music</option>
+                        <option value="Productivity">Productivity</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <label for="price">Price</label><br>
+                    <input class="form-control my-2" type="number" name="price" id="price" placeholder="$0" required>
+                </div>
+            </div>
+            <button class='btn btn-outline-success my-3'>Upload Project</button>
+                <p>(upload picture on next page)</p>
         </form>
         {% if messages %}
-        <ul style="color:red">
-            {% for msg in messages %}
-                <li>{{msg}}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+            <ul style="color:red">
+                {% for msg in messages %}
+                    <li>{{msg}}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
     </div>
 </body>
 
