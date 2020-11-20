@@ -6,17 +6,18 @@ from django.db.models import Q
 # from django.views.generic.list import ListView
 from django.views.generic import ListView
 from itertools import chain
+from django.contrib import messages
 
 def index(request):
-    project = Project.objects.get(len(watchers))
+
     all_projects = Project.objects.all()
+
     top_5 = []
     for project in all_projects:
         if len(top_5) < 6:
             top_5.append(project)
         else:
             break
-
 
     context = {
         "all_projects": all_projects,
@@ -38,7 +39,7 @@ def dashboard(request):
         context = {
             'user': user,
             'my_watchlists': Project.objects.filter(watchers=request.session['client_id']),
-            "all_projects": Project.objects.all(),
+            "all_projects": Project.objects.all().order_by('-created_at'),
             
         }
         return render(request, 'dashboard.html', context)
@@ -101,6 +102,11 @@ def add_project(request):
     return render(request, 'upload_project.html', context)
 
 def create_project(request):
+    errors = Project.objects.project_validator(request.POST)
+    if errors:
+        for value in errors.values():
+            messages.error(request, value)
+        return redirect('/create_project')
     form = request.POST
     new_project = Project.objects.create(
         name = form['proj_name'],
@@ -166,7 +172,6 @@ def edit_project(request, proj_id):
 
 
 
-########## Messaging Area ##########
 
 def inbox(request):
     if request.session['role'] == 'client':

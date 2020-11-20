@@ -94,6 +94,13 @@
             <input type="hidden" value={{project.id}} name="project_id">
             <button class='btn btn-outline-success ml-2 mt-2'>Upload Project</button>
         </form>
+        {% if messages %}
+        <ul style="color:red">
+            {% for msg in messages %}
+                <li>{{msg}}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
     </div>
 </body>
 

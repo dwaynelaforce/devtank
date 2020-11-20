@@ -62,7 +62,7 @@
         <form action="/add_project_img/{{project.id}}" method="POST" enctype='multipart/form-data'>
             {% csrf_token %}
             <label for="image">Image : </label>
-            <input type="file" name='image'>
+            <input type="file" name='image' required>
             <input type="hidden" name='project_id' value='{{project.id}}'>
             <button class='btn btn-info'>Upload Images</button>
         </form>
