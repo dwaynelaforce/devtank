@@ -13,6 +13,7 @@ urlpatterns = [
     path('delete_project/<int:project_id>', views.delete_project),
     path('projects/<int:project_id>', views.show_project),
     path('devs/<int:dev_id>', views.show_dev),
+    path('edit_project_page/<int:project_id>', views.edit_project_page),
     path('edit_project/<int:project_id>', views.edit_project),
     path('add_to_watchlist/<int:project_id>', views.add_to_watchlist),
     path('remove_from_watchlist/<int:project_id>', views.remove_from_watchlist),

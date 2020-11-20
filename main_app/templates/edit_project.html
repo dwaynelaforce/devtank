@@ -38,7 +38,7 @@
                     <a class="text-white" href="/add_project">Upload Project</a>
                 </p>
                 <p class="mt-3">
-                    <a class="text-white" href="/devs/{{dev.id}}">{{dev.alias}}</a>
+                    <a class="text-white" href="/devs/{{user.id}}">{{user.alias}}</a>
                     <span>  |  </span>
                     <a class="text-white" href="/logout">Log Out</a>
                 </p>
@@ -57,8 +57,8 @@
     </div>
     <!-- end navbar -->
     <div class="main">
-        <h1>Upload Your Project</h1>
-        <form action="/edit_project/{{ project.id }}" method="post">
+        <h1>Edit Your Project</h1>
+        <form action="/edit_project/{{project.id}}" method="post" >
             {% csrf_token %}
             <div>
                 <label for="proj_name">Project Name</label>
@@ -89,11 +89,8 @@
                 <label for="price">Price</label>
                 <input type="number" name="price" id="price" value="{{ proj.price }}">
             </div>
-            <div class="form-group">
-                <label for="image">Add Project Picture:</label>
-                <input type="file" name='image' required>
-            </div>
-            <button class = 'btn btn-outline-success ml-2 mt-2'>Upload Project</button>
+            
+            <button class = 'btn btn-outline-success ml-2 mt-2'>Submit Edit</button>
         </form>
     </div>
 </body>
