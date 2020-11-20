@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
         integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"copy></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js" copy></script>
 
 </head>
 <style>
@@ -26,35 +26,35 @@
             <a href="/dashboard"><img id="logo" src="{% static 'img/devtank_logo_4.png' %}" alt="devtank home page"></a>
             <p class="mt-3">
                 <a class="text-white" href="/dashboard">Home</a>
-                <span>  |  </span>
+                <span> | </span>
                 <a class="text-white" href="/about">About Us</a>
-                <span>  |  </span>
+                <span> | </span>
                 <a class="text-white" href="/search">Search By Category</a>
             </p>
         </div>
         {% if 'role' in request.session %}
-            {% if request.session.role == 'dev' %}
-                <p class="mt-3">
-                    <a class="text-white" href="/inbox">Messages</a>
-                    <span>  |  </span>
-                    <a class="text-white" href="/add_project">Upload Project</a>
-                </p>
-                <p class="mt-3">
-                    <a class="text-white" href="/devs/{{user.id}}">{{user.alias}}</a>
-                    <span>  |  </span>
-                    <a class="text-white" href="/logout">Log Out</a>
-                </p>
-            {% endif %}
-            {% if request.session.role == 'client' %}
-                <p class="mt-3">
-                    <a class="text-white" href="/inbox">Messages</a>
-                </p>
-                <p class="mt-3">
-                    {{client.alias}}<a class="text-white" href="/logout">Log Out</a>
-                </p>
-            {% endif %}
+        {% if request.session.role == 'dev' %}
+        <p class="mt-3">
+            <a class="text-white" href="/inbox">Messages</a>
+            <span> | </span>
+            <a class="text-white" href="/add_project">Upload Project</a>
+        </p>
+        <p class="mt-3">
+            <a class="text-white" href="/devs/{{user.id}}">{{user.alias}}</a>
+            <span> | </span>
+            <a class="text-white" href="/logout">Log Out</a>
+        </p>
+        {% endif %}
+        {% if request.session.role == 'client' %}
+        <p class="mt-3">
+            <a class="text-white" href="/inbox">Messages</a>
+        </p>
+        <p class="mt-3">
+            {{client.alias}}<a class="text-white" href="/logout">Log Out</a>
+        </p>
+        {% endif %}
         {% else %}
-            <a class="text-white" href="/login_reg">Log In</a>
+        <a class="text-white" href="/login_reg">Log In</a>
         {% endif %}
     </div>
     <!-- end navbar -->
@@ -68,76 +68,85 @@
     <div class="w-50 mx-auto" id="main_inbox">
         <h3>Inbox ({{user.alias}})</h3>
         {% if request.session.role == 'client' %}
-            <div id="new_message_client">
-                <form action="/new" method="POST">
-                    {% csrf_token %}
-                    <label for="new_chat">New Chat</label>
-                    <select name="dev_chat">
-                        {% for dev in all_devs %}
-                        <option value="{{dev.id}}">{{dev.alias}}</option>
-                        {% endfor %}
-                    </select>
-                    <input type="text" name="text" id="text">
-                    <input type="hidden" name="starter" value='{{user.id}}'>
-                    <button type="submit" class='btn btn-success'>Submit</button>
-                </form>
-                
-            </div>
+        <div id="new_message_client">
+            <form action="/new" method="POST">
+                {% csrf_token %}
+                <label for="new_chat">New Chat</label>
+                <select name="dev_chat">
+                    {% for dev in all_devs %}
+                    <option value="{{dev.id}}">{{dev.alias}}</option>
+                    {% endfor %}
+                </select>
+                <input type="text" name="text" id="text">
+                <input type="hidden" name="starter" value='{{user.id}}'>
+                <button type="submit" class='btn btn-success'>Submit</button>
+            </form>
+
+        </div>
         {% endif %}
 
         <div id="all_chats">
             {% for message in sent_messages.all %}
-                <div class="bg-transparent m-4 p-3 border border-light rounded">
-                    <div class="my-2">
-                        <p class="my-0"><small>{{message.created_at}}</small></p>
-                        <p class="my-0"><small>{{message.starter.alias}} said:</small></p>
-                        <div class="bg-dark border border-light rounded mb-2 w-75 p-2">
-                            <p class="ml-3">{{message.text}}</p>
+            <div class="bg-transparent m-4 p-3 border border-light rounded">
+                <div class="my-2">
+                    <p class="my-0"><small>{{message.created_at}}</small></p>
+                    <p class="my-0"><small>{{message.starter.alias}} said:</small></p>
+                    <div class="bg-dark border border-light rounded mb-2 w-75 p-2">
+                        <p class="ml-3">{{message.text}}</p>
+                    </div>
+                </div>
+                {% for reply in message.comments.all %}
+                {% if reply.dev_replier %}
+                <div class="my-2">
+                    <p class="text-right mr-2 my-0"><small>{{reply.created_at}}</small></p>
+                    <p class="text-right mr-2 my-0"><small>{{reply.dev_replier.alias}} said:</small></p>
+                    <div class="row mb-2 mr-1">
+                        <div class="col"></div>
+                        <div class="bg-primary border border-light rounded p-2 w-75">
+                            <p class="text-right">{{reply.post}}</p>
                         </div>
                     </div>
-                    {% for reply in message.comments.all %}
-                        {% if reply.dev_replier %}
-                            <div class="my-2">
-                                <p class="text-right mr-2 my-0"><small>{{reply.created_at}}</small></p>
-                                <p class="text-right mr-2 my-0"><small>{{reply.dev_replier.alias}} said:</small></p>
-                                <div class="row mb-2 mr-1">
-                                    <div class="col"></div>
-                                    <div class="bg-primary border border-light rounded p-2 w-75">
-                                        <p class="text-right">{{reply.post}}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        {% elif reply.client_replier %}
-                            <div class="my-2">
-                                <p class="my-0"><small>{{reply.created_at}}</small></p>
-                                <p class="my-0"><small>{{reply.client_replier.alias}} said: </small></p>
-                                <div class="bg-dark border border-light rounded my-2 p-2 w-75">
-                                    <p class="ml-3">{{reply.post}}</p>    
-                                </div>
-                            </div>
-                        {% endif %}
-                    {% endfor %}
+                </div>
+                {% elif reply.client_replier %}
+                <div class="my-2">
+                    <p class="my-0"><small>{{reply.created_at}}</small></p>
+                    <p class="my-0"><small>{{reply.client_replier.alias}} said: </small></p>
+                    <div class="bg-dark border border-light rounded my-2 p-2 w-75">
+                        <p class="ml-3">{{reply.post}}</p>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
                 <form class="my-3" action="/new_reply/{{message.id}}" method="POST">
                     {% csrf_token %}
                     <textarea class="form-control" name="text" id="text" cols="30" rows="4"></textarea>
                     <input type="hidden" name="message_id" value='{{message.id}}'>
                     <button type="submit" class='btn btn-success my-3'>Send Reply</button>
                 </form>
-                </div>
+            </div>
             {% endfor %}
         </div>
     </div>
     <script>
         {% for message in sent_messages.all %}
-            $(document).ready(function(){
-                $('#{{message.starter.alias}}').click(function(){
-                    $('#all_chats').show();
-                });
-                $('#all_chats').click(function(){
-                    $('')
+        $(document).ready(function () {
+            $('form').submit(function (e) {
+                e.preventDefault()
+                $.ajax({
+                    url: '/inbox/',
+                    method: 'post',
+                    data: $(this).serialize(),
+                    success: function (serverResponse) {
+                    }
                 })
+                // $('#{{message.starter.alias}}').click(function () {
+                //     $('#all_chats').show();
+                // });
+                // $('#all_chats').click(function () {
+                //     $('')
+                // })
             });
-        {% endfor %}
+            {% endfor %}
     </script>
 </body>
 
