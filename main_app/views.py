@@ -10,6 +10,7 @@ from django.contrib import messages
 
 def index(request):
 
+    project = Project.objects.get(len(watchers))
     all_projects = Project.objects.all()
 
     top_5 = []
@@ -172,7 +173,6 @@ def edit_project(request, proj_id):
 
 
 
-########## Messaging Area ##########
 
 def inbox(request):
     if request.session['role'] == 'client':
