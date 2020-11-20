@@ -71,7 +71,7 @@
             <h4>All Projects</h4>
             {% for project in all_projects %}
             {% for img in project.images.all %}
-            <img src="{{ img.image.url }}" alt="Some Project Pic?" >
+            <img class="project_img" src="{{ img.image.url }}" alt="Some Project Pic?" >
             {% endfor %}
             <h5><a href="/projects/{{project.id}}">{{project.name}}</a></h5>
             <p>{{ project.pitch }}</p>
@@ -100,7 +100,7 @@
             <h4>All Projects</h4>
             {% for project in all_projects %}
             {% for img in project.images.all%}
-                <img src = "{{img.image.url}}" alt="This is a badass pic of a badass project" >
+                <img class="project_img" src = "{{img.image.url}}" alt="This is a badass pic of a badass project" >
             {% endfor %}
             <h5><a href="/projects/{{project.id}}">{{project.name}}</a></h5>
             <p>{{ project.pitch }}</p>
