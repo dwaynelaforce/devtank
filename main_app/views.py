@@ -70,12 +70,14 @@ def show_dev(request, dev_id):
         user = Client.objects.get(id=request.session['client_id'])
         context = {
         'client' : user,
+        'dev' : Dev.objects.get(id=dev_id),
         'total_watchers': total_watchers,
         }
     else:
         user = Dev.objects.get(id=request.session['dev_id'])
         context = {
-        'dev' : user,
+        'user' : user,
+        'dev' : Dev.objects.get(id=dev_id),
         'total_watchers': total_watchers,
     }
     
