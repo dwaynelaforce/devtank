@@ -59,41 +59,47 @@
         {% endif %}
     </div>
     <!-- end navbar -->
-    {% if request.session.role == 'dev'%}
-    <div class="message">
-        {% for message in sent_messages.all %}
-        <p id={{message.starter.alias}}>{{ message.starter.alias }}</p>
-        {% endfor %}
-    </div>
-    {% else %}
-    <div class="message">
-        {% for message in sent_messages.all %}
-        <p id={{message.messager.first.alias}}>{{ message.messager.first.alias }}</p>
-        {% endfor %}
-    </div>
-    {% endif %}
-
-    <div class="w-50 mx-auto" id="main_inbox">
-        <h3>Inbox ({{user.alias}})</h3>
-        {% if request.session.role == 'client' %}
-        <div id="new_message_client">
-            <form action="/new" method="POST">
-                {% csrf_token %}
-                <label for="new_chat">New Chat</label>
-                <select name="dev_chat">
-                    {% for dev in all_devs %}
-                    <option value="{{dev.id}}">{{dev.alias}}</option>
+    <h3 class="text-center my-4">Inbox ({{user.alias}})</h3>
+    <div id="main_inbox" class="row w-75 mx-auto">
+        <div id="left bar" class="col-4">
+            {% if request.session.role == 'client' %}
+                <div id="compose" class="mb-5">
+                    <div id="new_message_client">
+                        <h4 class="text-center">New Message</h4>
+                        <form action="/new" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="starter" value='{{user.id}}'>
+                            <label for="new_chat">To:</label>
+                            <select class="form-control mb-2" name="dev_chat">
+                                {% for dev in all_devs %}
+                                <option value="{{dev.id}}">{{dev.alias}}</option>
+                                {% endfor %}
+                            </select>
+                            <label for="text">Your message:</label>
+                            <textarea class="form-control mb-2" name="text" id="text" cols="30" rows="5"></textarea>
+                            <button type="submit" class='btn btn-success'>Send</button>
+                        </form>
+                    </div>
+                </div>
+            {% endif %}
+            <div id="contacts">
+                <h4 class="text-center">My Chats</h4>
+                {% if request.session.role == 'dev'%}
+                <div class="message">
+                    {% for message in sent_messages.all %}
+                    <p class="bg-secondary rounded m-2 text-center" id={{message.starter.alias}}>{{ message.starter.alias }}</p>
                     {% endfor %}
-                </select>
-                <input type="text" name="text" id="text">
-                <input type="hidden" name="starter" value='{{user.id}}'>
-                <button type="submit" class='btn btn-success'>Submit</button>
-            </form>
-
+                </div>
+                {% else %}
+                <div class="message">
+                    {% for message in sent_messages.all %}
+                    <p class="bg-secondary rounded m-2 text-center" id={{message.messager.first.alias}}>{{ message.messager.first.alias }}</p>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
         </div>
-        {% endif %}
-
-        <div id="all_chats">
+        <div id="all_chats" class="col">
             {% for message in sent_messages.all %}
             <div class="bg-transparent m-4 p-3 border border-light rounded" id='{{message.id}}'>
                 <h5 class = 'text-center my-2'>{{message.messager.first.alias}}</h5>
@@ -130,7 +136,9 @@
                     {% csrf_token %}
                     <textarea class="form-control" name="text" id="text" cols="30" rows="4"></textarea>
                     <input type="hidden" name="message_id" value='{{message.id}}'>
-                    <button type="submit" class='btn btn-success my-3'>Send Reply</button>
+                    <div class="d-flex justify-content-end">
+                        <button type="submit" class='btn btn-success my-3'>Send Reply</button>
+                    </div>
                 </form>
             </div>
             {% endfor %}
