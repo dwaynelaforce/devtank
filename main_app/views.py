@@ -10,7 +10,6 @@ from django.contrib import messages
 
 def index(request):
 
-    project = Project.objects.get(len(watchers))
     all_projects = Project.objects.all()
 
     top_5 = []
