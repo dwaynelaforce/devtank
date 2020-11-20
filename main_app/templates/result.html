@@ -60,10 +60,11 @@
     <!-- end navbar -->
     <div id="main_category" class="col w-75 mx-auto my-3">
         <div>
-            <h3 class="my-3">Filter projects by category</h3>
+            <h3 class="my-3">Filter Projects by Category</h3>
             <form action="/category" method="POST">
                 {% csrf_token %}
                 <select name="category" id="category" class="form-control my-3">
+                    <option value="{{category}}" hidden>{{category}}</option>
                     <option value="Business">Business</option>
                     <option value="Education">Education</option>
                     <option value="Entertainment">Entertainment</option>
@@ -79,7 +80,9 @@
         {% if request.session.role == 'dev' or request.session.role == 'client' %}
         <div class="results">
             {% if all_projects %}
+            <h3 class = 'text-center my-3'>{{ category }}</h3>
             {% for project in all_projects %}
+                
             <div class="row my-3 mx-0 bg-transparent border border-light rounded" style="max-height: 500px;">
                 <div class="col p-2">
                     <h5><a href="/projects/{{project.id}}">{{project.name}}</a></h5>
@@ -114,12 +117,13 @@
             </div>
             {% endfor %}
             {% else %}
-            <p>Sorry, no projects under this category have been uploaded! :(</p>
+            <p class = 'text-center my-3'>Sorry, no projects under the {{category}} category have been uploaded! :(</p>
             {% endif %}
         </div>
         {% else %}
         <div class="results">
             {% if all_projects %}
+            <h3 class = 'text-center my-3'>{{ category }}</h3>
             {% for project in all_projects %}
             <div class="row my-3 mx-0 bg-transparent border border-light rounded" style="max-height: 500px;">
                 <div class="col p-2">
@@ -147,7 +151,7 @@
             </div>
             {% endfor %}
             {% else %}
-            <p>Sorry, no projects under this category have been uploaded! :(</p>
+            <p class = 'text-center my-3'>Sorry, no projects under the {{category}} category have been uploaded! :(</p>
             {% endif%}
         </div>
         {% endif %}

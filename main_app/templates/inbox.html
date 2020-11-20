@@ -59,12 +59,19 @@
         {% endif %}
     </div>
     <!-- end navbar -->
-
+    {% if request.session.role == 'dev'%}
     <div class="message">
         {% for message in sent_messages.all %}
         <p id={{message.starter.alias}}>{{ message.starter.alias }}</p>
         {% endfor %}
     </div>
+    {% else %}
+    <div class="message">
+        {% for message in sent_messages.all %}
+        <p id={{message.messager.first.alias}}>{{ message.messager.first.alias }}</p>
+        {% endfor %}
+    </div>
+    {% endif %}
 
     <div class="w-50 mx-auto" id="main_inbox">
         <h3>Inbox ({{user.alias}})</h3>
@@ -89,6 +96,7 @@
         <div id="all_chats">
             {% for message in sent_messages.all %}
             <div class="bg-transparent m-4 p-3 border border-light rounded" id='{{message.id}}'>
+                <h5 class = 'text-center my-2'>{{message.messager.first.alias}}</h5>
                 <div class="my-2">
                     <p class="my-0"><small>{{message.created_at}}</small></p>
                     <p class="my-0"><small>{{message.starter.alias}} said:</small></p>
@@ -131,7 +139,16 @@
     <script>
         {% for message in sent_messages.all %}
         $(document).ready(function () {
+            
+            $("#{{all_chats}}").ready(function () {
+                $("#{{message.id}}").hide('fast', function () {
+                })
+            })
             $("#{{message.starter.alias}}").click(function () {
+                $("#{{message.id}}").slideToggle('slow', function () {
+                })
+            })
+            $("#{{message.messager.first.alias}}").click(function () {
                 $("#{{message.id}}").slideToggle("slow", function () {
                 })
             })

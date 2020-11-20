@@ -311,99 +311,157 @@ def category(request):
 
 
 def business(request):
-    if 'role' in request.session:
+
+    if 'role' not in request.session: 
+        context = {
+            'all_projects': Project.objects.filter(category = 'Business'),
+            'category': 'Business',
+        }
+
+    else:
         if request.session['role'] == 'client':
             user = Client.objects.get(id=request.session['client_id'])
         elif request.session['role'] == 'dev':
             user = Dev.objects.get(id=request.session['dev_id'])
-    context = {
-        'all_projects': Project.objects.filter(category = 'Business'),
-        'user' : user,
-    }
+        context = {
+            'all_projects': Project.objects.filter(category = 'Business'),
+            'user' : user,
+            'category': 'Business'
+        }
     return render(request, 'result.html', context)
 
 def education(request):
-    if 'role' in request.session:
+    if 'role' not in request.session: 
+        context = {
+            'all_projects': Project.objects.filter(category = 'Education'),
+            'category': 'Education'
+        }
+
+    else:
         if request.session['role'] == 'client':
             user = Client.objects.get(id=request.session['client_id'])
         elif request.session['role'] == 'dev':
             user = Dev.objects.get(id=request.session['dev_id'])
-    context = {
-        'all_projects': Project.objects.filter(category = 'Education'),
-        'user' : user,
-    }
+        context = {
+            'all_projects': Project.objects.filter(category = 'Education'),
+            'user' : user,
+            'category': 'Education'
+        }
     return render(request, 'result.html', context)
 
 def entertainment(request):
-    if 'role' in request.session:
+    if 'role' not in request.session: 
+        context = {
+            'all_projects': Project.objects.filter(category = 'Entertainment'),
+            'category': 'Entertainment'
+        }
+
+    else:
         if request.session['role'] == 'client':
             user = Client.objects.get(id=request.session['client_id'])
         elif request.session['role'] == 'dev':
             user = Dev.objects.get(id=request.session['dev_id'])
-    context = {
-        'all_projects': Project.objects.filter(category = 'Entertainment'),
-        'user' : user,
-    }
+        context = {
+            'all_projects': Project.objects.filter(category = 'Entertainment'),
+            'user' : user,
+            'category': 'Entertainment',
+        }
     return render(request, 'result.html', context)
 
 def finance(request):
-    if 'role' in request.session:
+    if 'role' not in request.session: 
+        context = {
+            'all_projects': Project.objects.filter(category = 'Finance'),
+            'category': 'Finance',
+        }
+
+    else:
         if request.session['role'] == 'client':
             user = Client.objects.get(id=request.session['client_id'])
         elif request.session['role'] == 'dev':
             user = Dev.objects.get(id=request.session['dev_id'])
-    context = {
-        'all_projects': Project.objects.filter(category = 'Finance'),
-        'user' : user,
-    }
+        context = {
+            'all_projects': Project.objects.filter(category = 'Finance'),
+            'user' : user,
+            'category': 'Finance',
+        }
     return render(request, 'result.html', context)
 
 def fitness(request):
-    if 'role' in request.session:
+    if 'role' not in request.session: 
+        context = {
+            'all_projects': Project.objects.filter(category = 'Fitness'),
+            'category': 'Fitness',
+        }
+
+    else:
         if request.session['role'] == 'client':
             user = Client.objects.get(id=request.session['client_id'])
         elif request.session['role'] == 'dev':
             user = Dev.objects.get(id=request.session['dev_id'])
-    context = {
-        'all_projects': Project.objects.filter(category = 'Fitness'),
-        'user' : user,
-    }
+        context = {
+            'all_projects': Project.objects.filter(category = 'Fitness'),
+            'user' : user,
+            'category': 'Fitness',
+        }
     return render(request, 'result.html', context)
 
 def games(request):
-    if 'role' in request.session:
+    if 'role' not in request.session: 
+        context = {
+            'all_projects': Project.objects.filter(category = 'Games'),
+            'category': 'Games',
+        }
+
+    else:
         if request.session['role'] == 'client':
             user = Client.objects.get(id=request.session['client_id'])
         elif request.session['role'] == 'dev':
             user = Dev.objects.get(id=request.session['dev_id'])
-    context = {
-        'all_projects': Project.objects.filter(category = 'Games'),
-        'user' : user,
-    }
+        context = {
+            'all_projects': Project.objects.filter(category = 'Games'),
+            'user' : user,
+            'category': 'Games',
+        }
     return render(request, 'result.html', context)
 
 def music(request):
-    if 'role' in request.session:
+    if 'role' not in request.session: 
+        context = {
+            'all_projects': Project.objects.filter(category = 'Music'),
+            'category': 'Music',
+        }
+
+    else:
         if request.session['role'] == 'client':
             user = Client.objects.get(id=request.session['client_id'])
         elif request.session['role'] == 'dev':
             user = Dev.objects.get(id=request.session['dev_id'])
-    context = {
-        'all_projects': Project.objects.filter(category = 'Music'),
-        'user' : user,
-    }
+        context = {
+            'all_projects': Project.objects.filter(category = 'Music'),
+            'user' : user,
+            'category': 'Music',
+        }
+        
     return render(request, 'result.html', context)
 
 def productivity(request):
-    if 'role' in request.session:
+    if 'role' not in request.session: 
+        context = {
+            'all_projects': Project.objects.filter(category = 'Productivity'),
+            'category': 'Productivity'
+        }
+
+    else:
         if request.session['role'] == 'client':
             user = Client.objects.get(id=request.session['client_id'])
         elif request.session['role'] == 'dev':
             user = Dev.objects.get(id=request.session['dev_id'])
-    context = {
-        'all_projects': Project.objects.filter(category = 'Productivity'),
-        'user' : user,
-    }
+        context = {
+            'all_projects': Project.objects.filter(category = 'Productivity'),
+            'user' : user,
+            'category': 'Productivity'
+        }
     return render(request, 'result.html', context)
 
 
